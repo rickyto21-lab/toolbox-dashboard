@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToolBox Dashboard</title>
+    <title>ToolBox Dashboard & Projects</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#f4f1ea">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -11,47 +11,75 @@
         :root {
             --bg-color: #f4f1ea;      /* 米白背景 */
             --card-bg: #ffffff;       /* 卡片白 */
+            --notion-bg: #f9f8f6;     /* Notion 灰色區塊底色 */
             --primary: #8b7355;       /* 大地棕 */
             --primary-hover: #705b42; 
-            --text-main: #4a4a4a;     /* 深灰文字 */
-            --text-muted: #8c8c8c;
-            --border-radius: 16px;
+            --text-main: #37352f;     /* Notion 經典深灰文字 */
+            --text-muted: #787774;
+            --code-bg: #f4f4f4;       
+            --border-radius: 12px;
+            --border-color: #e9e9e7;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
 
         body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
 
-        header { padding: 20px 40px; background: var(--card-bg); box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: space-between; }
-        header h1 { font-size: 1.5rem; color: var(--primary); cursor: pointer; }
+        header { padding: 20px 40px; background: var(--card-bg); box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+        header h1 { font-size: 1.5rem; color: var(--primary); cursor: pointer; display: flex; align-items: center; gap: 10px; }
 
-        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+
+        /* Section Titles */
+        .section-title { margin: 40px 0 20px; color: var(--primary); font-size: 1.4rem; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; display: flex; align-items: center; gap: 10px; }
 
         /* Dashboard Grid */
-        #dashboard-view { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
-        .tool-card { background: var(--card-bg); padding: 30px; border-radius: var(--border-radius); box-shadow: 0 4px 15px rgba(0,0,0,0.03); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; text-align: center; border: 1px solid transparent; }
-        .tool-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(139, 115, 85, 0.15); border-color: #e8e0d5; }
-        .tool-card i { font-size: 2.5rem; color: var(--primary); margin-bottom: 15px; }
-        .tool-card h3 { font-size: 1.2rem; margin-bottom: 10px; }
-        .tool-card p { font-size: 0.9rem; color: var(--text-muted); }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px; }
+        .tool-card { background: var(--card-bg); padding: 30px; border-radius: var(--border-radius); box-shadow: 0 4px 15px rgba(0,0,0,0.03); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; text-align: center; border: 1px solid transparent; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .tool-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(139, 115, 85, 0.15); border-color: var(--border-color); }
+        .tool-card i { font-size: 2.2rem; color: var(--primary); margin-bottom: 15px; }
+        .tool-card span.emoji-icon { font-size: 2.2rem; margin-bottom: 15px; }
+        .tool-card h3 { font-size: 1.1rem; margin-bottom: 10px; line-height: 1.4; }
+        .tool-card p { font-size: 0.85rem; color: var(--text-muted); }
 
-        /* Tool View */
+        /* Tool View (For mini tools) */
         .tool-view { display: none; background: var(--card-bg); padding: 40px; border-radius: var(--border-radius); box-shadow: 0 4px 15px rgba(0,0,0,0.03); max-width: 600px; margin: 0 auto; text-align: center; }
         
-        /* Doc View (For text heavy pages like the guide) */
-        .doc-view { max-width: 800px; text-align: left; }
-        .doc-view h3 { color: var(--primary); margin-top: 25px; margin-bottom: 10px; font-size: 1.2rem; border-bottom: 2px solid #e8e0d5; padding-bottom: 8px; }
-        .doc-view h4 { color: var(--text-main); margin-top: 20px; margin-bottom: 10px; font-size: 1.05rem; }
-        .doc-view p, .doc-view li { margin-bottom: 12px; color: var(--text-main); font-size: 0.95rem; line-height: 1.8; }
-        .doc-view ul, .doc-view ol { margin-left: 20px; margin-bottom: 20px; }
-        .doc-view blockquote { background: var(--bg-color); padding: 20px; border-radius: 8px; color: #5a5a5a; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.8; border-left: 4px solid var(--primary); }
-        .doc-box { background: var(--bg-color); padding: 25px; border-radius: 8px; margin-bottom: 30px; }
+        /* ====== Notion-style Doc View ====== */
+        .doc-view { display: none; background: var(--card-bg); padding: 50px; border-radius: var(--border-radius); box-shadow: 0 4px 15px rgba(0,0,0,0.03); max-width: 900px; margin: 0 auto; text-align: left; }
+        .doc-view h2.doc-title { font-size: 2.2rem; font-weight: 700; color: var(--text-main); margin-bottom: 30px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
+        .doc-view h3 { font-size: 1.3rem; font-weight: 600; color: var(--text-main); margin-top: 35px; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
         
+        /* Notion Blocks */
+        .notion-row { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px; }
+        .notion-col { flex: 1; min-width: 300px; }
+        .notion-callout { background: var(--notion-bg); border-radius: 8px; padding: 20px; margin-bottom: 20px; display: flex; gap: 15px; align-items: flex-start; }
+        .notion-callout .icon { font-size: 1.5rem; line-height: 1.2; }
+        .notion-callout .content { flex: 1; }
+        .notion-callout h3 { font-size: 1.1rem; margin-bottom: 12px; margin-top: 0; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
+        .notion-callout p { margin-bottom: 10px; font-size: 0.95rem; color: var(--text-main); line-height: 1.7; }
+        .notion-callout p:last-child { margin-bottom: 0; }
+        
+        .notion-quote { border-left: 3px solid var(--text-main); padding-left: 14px; margin: 15px 0; font-size: 1rem; color: var(--text-main); }
+        .notion-highlight { background: rgba(235, 204, 184, 0.4); padding: 2px 6px; border-radius: 4px; font-weight: 500; }
+        
+        .doc-code { background: var(--code-bg); color: #333; padding: 20px; border-radius: 8px; font-family: 'Courier New', Courier, monospace; font-size: 0.9rem; overflow-x: auto; margin-bottom: 20px; line-height: 1.6; border: 1px solid #e1e1e1; white-space: pre-wrap; }
+        .doc-tag { display: inline-block; background: #e8e0d5; color: var(--primary); padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; margin-right: 8px; margin-bottom: 15px; }
+        
+        .doc-view ul, .doc-view ol { margin-left: 20px; margin-bottom: 15px; font-size: 0.95rem; line-height: 1.7; color: var(--text-main); }
+        .doc-view li { margin-bottom: 6px; }
+        .doc-view hr { border: none; border-top: 1px solid var(--border-color); margin: 30px 0; }
+        
+        /* Document Images */
+        .doc-image { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 25px; margin-top: 10px; display: block; }
+        .img-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        
+        .notion-link { color: var(--text-muted); text-decoration: none; border-bottom: 1px solid var(--border-color); transition: 0.2s; font-size: 0.9rem; margin-bottom: 8px; display: inline-block; }
+        .notion-link:hover { color: var(--primary); border-bottom-color: var(--primary); }
+        .notion-link i { font-size: 0.8rem; margin-right: 5px; }
+
         .back-btn { display: inline-block; margin-bottom: 20px; color: var(--text-muted); cursor: pointer; text-decoration: none; font-size: 0.9rem; }
         .back-btn:hover { color: var(--primary); }
-        .tool-title { margin-bottom: 30px; color: var(--primary); text-align: center; }
-        .text-link { color: var(--primary); font-weight: bold; text-decoration: none; transition: color 0.2s; }
-        .text-link:hover { color: var(--primary-hover); text-decoration: underline; }
 
         /* Inputs & Buttons */
         input[type="text"], input[type="url"] { width: 100%; padding: 12px 15px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; outline: none; transition: border 0.3s; }
@@ -60,15 +88,9 @@
         button:hover { background: var(--primary-hover); }
         button.secondary { background: #e8e0d5; color: var(--primary); }
         button.secondary:hover { background: #d6cab8; }
-
-        /* Result areas */
         .result-box { margin-top: 20px; padding: 15px; background: var(--bg-color); border-radius: 8px; word-break: break-all; display: none; }
-        
-        /* Pomodoro Specific */
         .timer-display { font-size: 4rem; font-weight: bold; color: var(--primary); margin: 20px 0; }
         .timer-controls { display: flex; gap: 10px; justify-content: center; }
-
-        /* QR Specific */
         #qr-result { margin-top: 20px; display: none; flex-direction: column; align-items: center; }
         #qr-result img { max-width: 200px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ddd; padding: 10px; }
     </style>
@@ -76,42 +98,91 @@
 <body>
 
     <header>
-        <h1 onclick="showView('dashboard')"><i class="fa-solid fa-toolbox"></i> ToolBox</h1>
+        <h1 onclick="showView('dashboard')"><i class="fa-solid fa-toolbox"></i> ToolBox Dashboard</h1>
     </header>
 
     <div class="container">
-        <!-- Dashboard 首頁 -->
-        <div id="dashboard-view" style="display: grid;">
-            <!-- 卡片 1 -->
-            <div class="tool-card" onclick="showView('url-tool')">
-                <i class="fa-solid fa-link"></i>
-                <h3>縮短網址</h3>
-                <p>將冗長嘅連結轉化為簡短精練嘅短網址</p>
+        <!-- ================= Dashboard 首頁 ================= -->
+        <div id="dashboard-view" style="display: block;">
+            
+            <h2 class="section-title"><i class="fa-solid fa-screwdriver-wrench"></i> 日常小工具</h2>
+            <div class="tools-grid">
+                <div class="tool-card" onclick="showView('url-tool')">
+                    <i class="fa-solid fa-link"></i>
+                    <h3>縮短網址</h3>
+                    <p>將冗長嘅連結轉化為短網址</p>
+                </div>
+                <div class="tool-card" onclick="showView('pomodoro-tool')">
+                    <i class="fa-solid fa-clock"></i>
+                    <h3>番茄時鐘</h3>
+                    <p>25分鐘專注，5分鐘休息</p>
+                </div>
+                <div class="tool-card" onclick="showView('qr-tool')">
+                    <i class="fa-solid fa-qrcode"></i>
+                    <h3>QR Code 產生器</h3>
+                    <p>輸入文字/網址轉換為二維碼</p>
+                </div>
             </div>
-            <!-- 卡片 2 -->
-            <div class="tool-card" onclick="showView('pomodoro-tool')">
-                <i class="fa-solid fa-clock"></i>
-                <h3>番茄時鐘</h3>
-                <p>25分鐘專注，5分鐘休息，提升生產力</p>
-            </div>
-            <!-- 卡片 3 -->
-            <div class="tool-card" onclick="showView('qr-tool')">
-                <i class="fa-solid fa-qrcode"></i>
-                <h3>QR Code 產生器</h3>
-                <p>輸入文字或網址，即時轉換為二維碼圖片</p>
-            </div>
-            <!-- 卡片 4 -->
-            <div class="tool-card" onclick="showView('pwa-guide-tool')">
-                <i class="fa-solid fa-book"></i>
-                <h3>專案紀錄與教學</h3>
-                <p>開發思路、檔案結構與 PWA 部署指南</p>
+
+            <h2 class="section-title"><i class="fa-solid fa-folder-open"></i> 專案紀錄</h2>
+            <div class="tools-grid">
+                <div class="tool-card" onclick="showView('pwa-guide-tool')">
+                    <span class="emoji-icon">🛠️</span>
+                    <h3>PWA 建立教學</h3>
+                    <p>開發思路與 PWA 部署指南</p>
+                </div>
+                <div class="tool-card" onclick="showView('doc-manus-intro')">
+                    <span class="emoji-icon">❔</span>
+                    <h3>關於MANUS (超詳細版)</h3>
+                    <p>專案基礎介紹與核心概念</p>
+                </div>
+                <div class="tool-card" onclick="showView('doc-lv1')">
+                    <span class="emoji-icon">📩</span>
+                    <h3>案例 Level 1</h3>
+                    <p>自動處理 Email 系統</p>
+                </div>
+                <div class="tool-card" onclick="showView('doc-lv2')">
+                    <span class="emoji-icon">📰</span>
+                    <h3>案例 Level 2</h3>
+                    <p>自動任務の每日AI日報</p>
+                </div>
+                <div class="tool-card" onclick="showView('doc-lv3')">
+                    <span class="emoji-icon">📁</span>
+                    <h3>案例 Level 3</h3>
+                    <p>電腦檔案自動整理系統</p>
+                </div>
+                <div class="tool-card" onclick="showView('doc-lv4')">
+                    <span class="emoji-icon">🌐</span>
+                    <h3>案例 Level 4</h3>
+                    <p>網頁小工具集合網站</p>
+                </div>
+                <div class="tool-card" onclick="showView('doc-lv5')">
+                    <span class="emoji-icon">💰</span>
+                    <h3>案例 Level 5</h3>
+                    <p>SAAS 全端系統網站開發</p>
+                </div>
+                <div class="tool-card" onclick="showView('doc-bonus1')">
+                    <span class="emoji-icon">💻</span>
+                    <h3>BONUS 1</h3>
+                    <p>製作 Mac 桌面 App</p>
+                </div>
+                <div class="tool-card" onclick="showView('doc-bonus2')">
+                    <span class="emoji-icon">📊</span>
+                    <h3>BONUS 2</h3>
+                    <p>AI 生成互動網站報告</p>
+                </div>
+                <div class="tool-card" onclick="showView('doc-bonus3')">
+                    <span class="emoji-icon">🎮</span>
+                    <h3>BONUS 3</h3>
+                    <p>迷你小遊戲集合網站</p>
+                </div>
             </div>
         </div>
 
-        <!-- 1. 縮短網址工具 -->
+        <!-- ================= 實用小工具內容 ================= -->
         <div id="url-tool" class="tool-view">
             <a class="back-btn" onclick="showView('dashboard')"><i class="fa-solid fa-arrow-left"></i> 返回主頁</a>
-            <h2 class="tool-title">縮短網址</h2>
+            <h2 style="color:var(--primary); margin-bottom:30px;">縮短網址</h2>
             <input type="url" id="url-input" placeholder="請貼上長網址 (例如: https://...)">
             <button onclick="shortenUrl()">生成短網址</button>
             <div id="url-result" class="result-box">
@@ -120,10 +191,9 @@
             </div>
         </div>
 
-        <!-- 2. 番茄時鐘工具 -->
         <div id="pomodoro-tool" class="tool-view">
             <a class="back-btn" onclick="showView('dashboard')"><i class="fa-solid fa-arrow-left"></i> 返回主頁</a>
-            <h2 class="tool-title" id="pomodoro-mode">專注時間 (25:00)</h2>
+            <h2 id="pomodoro-mode" style="color:var(--primary); margin-bottom:30px;">專注時間 (25:00)</h2>
             <div class="timer-display" id="timer-display">25:00</div>
             <div class="timer-controls">
                 <button id="start-btn" onclick="toggleTimer()">開始</button>
@@ -132,10 +202,9 @@
             </div>
         </div>
 
-        <!-- 3. QR Code 產生器工具 -->
         <div id="qr-tool" class="tool-view">
             <a class="back-btn" onclick="showView('dashboard')"><i class="fa-solid fa-arrow-left"></i> 返回主頁</a>
-            <h2 class="tool-title">QR Code 產生器</h2>
+            <h2 style="color:var(--primary); margin-bottom:30px;">QR Code 產生器</h2>
             <input type="text" id="qr-input" placeholder="輸入文字或網址...">
             <button onclick="generateQR()">產生 QR Code</button>
             <div id="qr-result">
@@ -144,76 +213,497 @@
             </div>
         </div>
 
-        <!-- 4. PWA 建立教學工具 (文件頁面) -->
-        <div id="pwa-guide-tool" class="tool-view doc-view">
+        <!-- ================= 專案紀錄內容 (10個頁面) ================= -->
+        
+        <!-- 0. PWA 建立教學 -->
+        <div id="pwa-guide-tool" class="doc-view">
             <a class="back-btn" onclick="showView('dashboard')"><i class="fa-solid fa-arrow-left"></i> 返回主頁</a>
-            <h2 class="tool-title">專案紀錄與 PWA 建立教學</h2>
+            <div>
+                <span class="doc-tag">教學指南</span>
+                <span class="doc-tag">PWA</span>
+            </div>
+            <h2 class="doc-title">🛠️ PWA 工具集 Dashboard 建立教學</h2>
             
-            <div class="doc-box">
-                <h3>📌 初心與目標</h3>
-                <blockquote>
-                    我想整一個工具集 Dashboard 式網站，目標係將一啲日常會用到嘅小工具集中放喺同一個地方，之後可以慢慢再加新工具。<br><br>
-                    第一版先放 3 個工具：縮短網址工具、番茄時鐘、QR Code 產生器。<br>
-                    我想要嘅唔係 3 個分開嘅工具頁，而係一個有整體感、似真正產品嘅小工具 Dashboard。<br>
-                    首頁可以睇到工具卡片，按入去就可以使用各自功能。整體風格走簡約、有設計感、大地色系。<br><br>
-                    請幫我規劃頁面結構、設計首頁同工具頁、建立第一版可運作 MVP，令 3 個工具都真係可以用到，並支援 PWA（可加到手機主畫面）。<br><br>
-                    <strong>3 個工具功能要求：</strong><br>
-                    • 縮短網址：輸入長網址生成短連結，可複製。<br>
-                    • 番茄時鐘：25 分鐘專注 + 5 分鐘休息，有開始、暫停、重設功能。<br>
-                    • QR Code 產生器：輸入文字或網址即時生成 QR Code，可下載圖片。
-                </blockquote>
-
-                <h3>💡 AI 開發與設計思路</h3>
-                <p>呢個 Dashboard 嘅概念非常好！將日常工具集中喺一個有設計感嘅平台，唔單止自己用得舒服，日後擴展做 SaaS 或者開源項目都好有潛力。</p>
-                <p>為咗配合你要求嘅「簡約、大地色系 (Earth Tones)、有整體感」，我哋會用米白色作為背景，配搭溫暖嘅棕色同灰褐色作為主色調。為咗令你可以最快測試呢個 MVP（最小可行產品），我會將 HTML、CSS 同 JavaScript 寫喺同一個 index.html 檔案入面，並透過簡單嘅 DOM 切換嚟模擬單頁應用（SPA）嘅流暢體驗。另外會提供 PWA 必需嘅 manifest.json 同 Service Worker。</p>
-
-                <h4>📁 專案檔案結構</h4>
-                <p>喺電腦開一個新資料夾（例如 tool-dashboard），包含以下 3 個核心檔案：</p>
-                <ul>
-                    <li><strong>1. index.html (主程式、UI 同邏輯)：</strong> 包含咗大地色系嘅 CSS 設計、Dashboard 卡片佈局，以及 3 個工具嘅完整運作邏輯。</li>
-                    <li><strong>2. manifest.json (PWA 設定)：</strong> 呢個檔案會話畀瀏覽器知，呢個網站可以安裝成為手機 App。</li>
-                    <li><strong>3. sw.js (Service Worker)：</strong> 加入 Service Worker 可以令你嘅網站喺手機加落主畫面後，即使網絡唔穩定都可以秒速開啟 UI，支援離線快取。</li>
-                </ul>
+            <div class="notion-callout">
+                <div class="icon">💡</div>
+                <div class="content">
+                    <p><strong>核心目標：</strong> 將日常會用到嘅小工具集中喺同一個有設計感嘅地方，並支援 PWA 技術，令網站可以好似原生 App 咁安裝到手機主畫面。</p>
+                </div>
             </div>
 
-            <div class="doc-box">
-                <h3>🚀 PWA 部署與上線步驟</h3>
-                <p>既然已經準備好上述 3 個檔案，接下來嘅核心目標係測試同埋發佈：</p>
+            <h3>1. 開發與設計思路</h3>
+            <p>為咗配合「簡約、大地色系 (Earth Tones)」嘅要求，網站使用米白色 <code>#f4f1ea</code> 作為背景，配搭溫暖嘅棕色 <code>#8b7355</code> 作為主色調。為咗最快達成 MVP（最小可行產品），所有邏輯皆整合於單一 <code>index.html</code> 中，透過 DOM 切換模擬單頁應用 (SPA) 嘅流暢體驗。</p>
 
-                <h4>步驟一：喺自己電腦做本地測試 (Local Test)</h4>
-                <ol>
-                    <li>基於瀏覽器安全限制，PWA 嘅離線快取技術 (Service Worker) 唔允許你直接 double-click 檔案（即 file:/// 網址）嚟運作。你需要一個本地伺服器。</li>
-                    <li>使用 VS Code 編輯器，去左側 Extension 搜尋並安裝「Live Server」。</li>
-                    <li>Right-click <code>index.html</code>，選擇「Open with Live Server」。</li>
-                    <li>瀏覽器會彈出類似 <code>http://127.0.0.1:5500</code> 嘅網址，你就可以喺電腦完美測試。</li>
-                </ol>
+            <h3>2. 核心檔案結構</h3>
+            <ul>
+                <li><strong>index.html：</strong> 主程式、UI 與所有工具邏輯。</li>
+                <li><strong>manifest.json：</strong> PWA 應用程式清單，定義 App 名稱、顏色與圖示。</li>
+                <li><strong>sw.js：</strong> Service Worker，提供離線快取支援。</li>
+            </ul>
 
-                <h4>步驟二：建立 <a href="https://github.com" target="_blank" class="text-link">GitHub</a> Repository (儲存庫)</h4>
-                <ol>
-                    <li>登入 GitHub 後，喺右上角撳 + 號，揀「New repository」。</li>
-                    <li>設定名稱 (例如 <code>toolbox-dashboard</code>) 並設為 Public，撳「Create repository」。</li>
-                    <li>點擊「uploading an existing file」，將 3 個檔案直接拖曳上傳。</li>
-                    <li>*(注意：確保檔案直接放喺最外層，唔好包喺資料夾入面)*。</li>
-                    <li>拉到底部點擊「Commit changes」儲存。</li>
-                </ol>
-
-                <h4>步驟三：喺 <a href="https://vercel.com" target="_blank" class="text-link">Vercel</a> 免費部署上網</h4>
-                <ol>
-                    <li>登入 Vercel 點擊「Add New...」>「Project」。</li>
-                    <li>選擇從 GitHub Import，並授權 Vercel 讀取你嘅帳戶。</li>
-                    <li>搵返頭先建立嘅 <code>toolbox-dashboard</code>，撳「Import」並直接「Deploy」。</li>
-                    <li>等待幾十秒，Vercel 就會提供一條真實網址。日後你喺電腦改完 Code 上傳 GitHub，Vercel 就會自動更新網站。</li>
-                </ol>
-
-                <h4>步驟四：手機 PWA 實測 (Mobile Test)</h4>
-                <ol>
-                    <li>用手機瀏覽器打開 Vercel 提供嘅網址。</li>
-                    <li><strong>iPhone 用戶 (Safari)：</strong> 撳畫面底部的「分享」掣，慢慢向下拉，揀「加至主畫面 (Add to Home Screen)」。</li>
-                    <li><strong>Android 用戶 (Chrome)：</strong> 瀏覽器通常會主動彈出提示；如果冇，可以撳右上角三點選單揀安裝。</li>
-                    <li>裝完之後返回手機桌面打開，你會發現冇咗瀏覽器嘅網址列，好似一個原生 App 咁！</li>
-                </ol>
-            </div>
+            <h3>3. 部署至 Vercel (免費上線)</h3>
+            <ol>
+                <li>登入 <a href="https://github.com/" target="_blank" class="notion-link">GitHub</a> 建立 Public Repository。</li>
+                <li>將上述 3 個檔案拖曳上傳至最外層（Root directory）。</li>
+                <li>登入 <a href="https://vercel.com/" target="_blank" class="notion-link">Vercel</a>，點擊「Add New Project」並從 GitHub 匯入。</li>
+                <li>點擊 Deploy，幾十秒後即可獲得真實網址。</li>
+            </ol>
         </div>
+
+        <!-- 1. 關於 MANUS (超詳細版) -->
+        <div id="doc-manus-intro" class="doc-view">
+            <a class="back-btn" onclick="showView('dashboard')"><i class="fa-solid fa-arrow-left"></i> 返回主頁</a>
+            <h2 class="doc-title">關於MANUS（超詳細版）</h2>
+
+            <div class="notion-callout">
+                <div class="icon">💬</div>
+                <div class="content">
+                    <h3>關於 Manus</h3>
+                    <a href="https://manus.im/" target="_blank" class="notion-link"><i class="fa-solid fa-link"></i> 官方首頁：https://manus.im/</a><br>
+                    <a href="https://manus.im/docs/introduction/welcome" target="_blank" class="notion-link"><i class="fa-solid fa-book"></i> 官方文件首頁：https://manus.im/docs/introduction/welcome</a><br>
+                    <a href="https://manus.im/pricing" target="_blank" class="notion-link"><i class="fa-solid fa-tag"></i> 官方價格頁：https://manus.im/pricing</a>
+                    <br><br>
+                    <p>Manus 係一個以 AI Agent 為核心定位嘅系統。<br>如果用最簡單一句去理解佢，同傳統 AI 最大分別就係：</p>
+                    <p><strong>傳統 AI 主要負責回答；Manus 主要負責執行。</strong></p>
+                    <p>官方文件將 Manus 描述為一個 <span class="notion-highlight">autonomous general AI agent</span>，重點唔係陪你對話，而係喺一個完整可操作嘅環境入面，幫你完成由規劃、執行到交付成果嘅整條工作鏈。</p>
+                    <p>呢個定位其實反映咗 AI 產品一個幾關鍵嘅轉向：<br>AI 唔再只係一個「幫你諗」或者「幫你寫」嘅工具，而係開始變成一個可以代你處理工作流程、實際落手做事嘅代理人。</p>
+                </div>
+            </div>
+
+            <div class="notion-row">
+                <div class="notion-col">
+                    <div class="notion-callout">
+                        <div class="icon">🤖</div>
+                        <div class="content">
+                            <h3>Manus 背後公司與核心人物</h3>
+                            <p>Manus 由 Butterfly Effect Pte. Ltd. 開發。現時公開資料可以比較穩陣確認到嘅核心人物包括：</p>
+                            <ul>
+                                <li><strong>肖弘</strong>（Xiao Hong，別名 Red）｜CEO</li>
+                                <li><strong>季逸超</strong>（Ji Yichao，常見別名 Peak）｜Chief Scientist</li>
+                                <li><strong>張濤</strong>（Zhang Tao）｜聯合創辦團隊成員之一</li>
+                            </ul>
+                            <p>其中肖弘喺官方內容同媒體報導中都係 Manus 最核心、最有代表性嘅人物；而「Red」呢個名亦唔係網民亂叫，係官方年度信入面直接用過嘅署名。季逸超則比較代表技術方向，因為 Manus 有篇好重要嘅技術文章〈Context Engineering for AI Agents〉，就係由佢署名發表。</p>
+                            <p>公司背景方面，公開資料顯示 Manus 早期與中國團隊有關，而後期主要營運重心轉向新加坡。呢個轉移除咗係公司架構變化之外，亦反映咗 AI 公司喺地緣政治、資本市場同監管環境之下，需要考慮更複雜嘅國際部署。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="notion-col">
+                    <div class="notion-callout">
+                        <div class="icon">💡</div>
+                        <div class="content">
+                            <h3>創辦理念：點解 Manus 唔似一般 AI 產品</h3>
+                            <p>如果只睇市面上好多 AI 產品，佢哋通常會圍繞幾個方向去講自己：更聰明、更快、更似人、更強大嘅模型。</p>
+                            <p>但 Manus 有趣嘅地方係，佢對外講法冇咁集中喺「模型幾勁」，反而一直強調 <strong>action、doing、deliver results</strong> 呢啲字眼。</p>
+                            <p>官方 About 頁有一句幾值得記住：</p>
+                            <div class="notion-quote">We don't want overachieving AI, we want overachieving Humans.</div>
+                            <p>而官方年度信入面，肖弘亦講過一句更直接嘅：</p>
+                            <div class="notion-quote">AI shouldn’t just think, it should also do.</div>
+                            <p>如果將呢兩句放埋一齊睇，其實可以幾清楚咁理解到 Manus 想做咩：<br><span class="notion-highlight">佢唔係想做一個「更識答你」嘅 AI，而係想做一個「真係幫你交到結果」嘅 AI。</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notion-callout">
+                <div class="icon">💬</div>
+                <div class="content">
+                    <h3>Manus 背後點樣運作？</h3>
+                    
+                    <p><strong>▼ Manus 核心技術思路：唔係靠一個超級模型，而係靠 Agent 系統</strong></p>
+                    <p>Manus 嘅技術路線，並唔係宣稱自己訓練咗一個全新、超越所有人嘅端到端大模型。相反，官方技術文章公開講到，團隊早期有諗過兩條路：</p>
+                    <ol>
+                        <li>訓練一個端到端 agent model</li>
+                        <li>建立喺現有 frontier models 之上，再做 agent 系統</li>
+                    </ol>
+                    <p>最後佢哋選擇咗後者，即係：<br>👉 重點唔係重新發明一個模型，而係做好「context engineering」同「execution system」。</p>
+                    <p>呢條路線其實好重要，因為佢決定咗 Manus 唔係一個單純比拼 IQ 嘅產品，而係一個比拼：任務拆解能力、工具調度能力、上下文管理能力、執行穩定性、交付結果能力。<br>換句話講，Manus 代表嘅唔係「模型戰」，而係「系統戰」。</p>
+
+                    <br><p><strong>▼ Manus 係點運作：由 chat 變成一個會做嘢嘅循環系統</strong></p>
+                    <p>從技術上睇，Manus 可以簡化理解成以下循環：</p>
+                    <ol>
+                        <li><strong>理解需求：</strong> 由語言模型去理解你輸入嘅目標、限制、上下文。</li>
+                        <li><strong>規劃步驟：</strong> 將大任務拆成多個細步驟，例如要唔要先搵資料、要唔要先開某個工具、要唔要生成文件。</li>
+                        <li><strong>調用工具：</strong> 根據任務需要，去用唔同工具，包括 API、網站、connector、本地資源、shell command 等。</li>
+                        <li><strong>執行與觀察結果：</strong> 做完一步之後，系統會睇返結果，再決定下一步。</li>
+                        <li><strong>反覆迭代直到完成：</strong> 呢個就係典型 agent loop：唔係一次答完，而係一路做一路修正。</li>
+                    </ol>
+                    <p>官方技術文章好清楚講到，呢個 loop 其實係由「action → observation → next action」一路推進，而唔係普通 chat model 嗰種一來一回。</p>
+
+                    <br><p><strong>▼ 沙盒虛擬電腦：點解 Manus 唔止係聊天介面</strong></p>
+                    <p>另一個非常關鍵嘅理解位係：Manus 嘅真正工作場所唔係 chat box，而係一個 sandbox 虛擬電腦環境。</p>
+                    <p>官方文件形容得好明確：佢唔只係一個對話 UI，而係運行喺一個完整虛擬電腦入面，當中包括：網絡連線、持久檔案系統、可安裝軟件、可建立工具、可執行程式碼。</p>
+                    <p>所以佢做到嘅，就唔再係「答你應該點做」，而係真係可以：</p>
+                    <ul>
+                        <li>幫你建立報告</li>
+                        <li>幫你整理資料</li>
+                        <li>幫你產出網站</li>
+                        <li>幫你跑指令</li>
+                        <li>幫你生成交付物</li>
+                    </ul>
+                    <p>呢個「虛擬電腦」概念，係 Manus 能夠由 AI 助手變成 AI Agent 嘅根基。</p>
+
+                    <br><p><strong>▼ 點解 Manus 可以做到低門檻</strong></p>
+                    <p>如果只係講一句「因為佢自然語言操作」其實太淺。真正原因冇咁簡單。Manus 之所以低門檻，唔係因為用戶突然變得識得寫 prompt，而係因為佢將原本最難、最工程化嗰部分——即環境、工具、權限、流程——幫你包埋。</p>
+                    <p>低門檻其實來自三樣嘢：</p>
+                    <ol>
+                        <li><strong>將執行環境抽象化：</strong> 你唔需要自己 set 好本地 IDE、CLI、依賴環境，因為系統已經有一個可執行環境。</li>
+                        <li><strong>將工具使用標準化：</strong> 透過 MCP Connectors、Browser Operator 等，外部工具唔再需要逐個自砌 integration。</li>
+                        <li><strong>將流程變成系統能力：</strong> Skill、Scheduled Tasks 呢啲唔係單一功能，而係將「一次性操作」變成「可重用流程」。</li>
+                    </ol>
+                    <p>所以 Manus 真正降低嘅唔係「用字門檻」，而係 <strong>系統使用門檻</strong>。</p>
+                </div>
+            </div>
+
+            <div class="notion-callout">
+                <div class="icon">💬</div>
+                <div class="content">
+                    <h3>Manus 四個最重要功能模組</h3>
+                    <p>如果要理解 Manus 點樣由「會講」走到「會做」，其實最值得睇係以下四個模組。</p>
+                    
+                    <p><strong>▼ MCP Connector</strong><br>
+                    MCP Connector 係 Manus 打通外部世界嘅方法。官方文件寫到好清楚，連接之後 Manus 可以：讀取資料、執行動作、協調跨平台 workflow。例如連接 Gmail、Notion、Telegram 之後，AI 就唔再停留喺「模擬」，而係可以真係對住你帳戶資料做嘢。</p>
+                    
+                    <p><strong>▼ Skill</strong><br>
+                    Skill 係另一個好重要嘅概念。佢本質上係將一套經驗、SOP、工具用法打包成可重用模組。官方描述包括：<code>SKILL.md</code>, <code>scripts</code>, <code>best practices</code>, <code>reusable resources</code>。你可以將一個工作流固定落嚟，之後唔使每次重新解釋。對內容創作者嚟講，呢樣非常值錢，因為研究、整理、格式化輸出本身就係一套可被標準化嘅流程。</p>
+                    
+                    <p><strong>▼ Scheduled Tasks（Cron）</strong><br>
+                    Manus 官方唔直接叫佢 Cron Job，而係叫 Scheduled Tasks。本質上一樣，即：每日自動做、每週自動做、每月自動做（例如 daily digest、weekly tracking、monthly report）。呢個功能令 AI 唔再係「你要用先打開」，而係變成可持續運作嘅系統。</p>
+
+                    <p><strong>▼ My Computer</strong><br>
+                    My Computer 係近一步拉高 Manus 層次嘅功能。佢唔只係 cloud agent，而係開始可以接觸本地電腦：讀寫檔案、用 CLI、操作本地 app、幫你整理 folder。從產品角度睇，呢個功能係一個重要轉折點，因為代表 Manus 正式由「雲端任務型 agent」走向「本地工作型 agent」。</p>
+                </div>
+            </div>
+
+            <div class="notion-row">
+                <div class="notion-col">
+                    <div class="notion-callout">
+                        <div class="icon">🔥</div>
+                        <div class="content">
+                            <h3>🚀 Manus 發展時間線</h3>
+                            <ul>
+                                <li><strong>2023-08-02｜Butterfly Effect 成立：</strong> Manus 背後公司成立。</li>
+                                <li><strong>2025-03（上旬）｜Manus 首次公開亮相：</strong> 以 AI Agent 概念開始受到市場關注。</li>
+                                <li><strong>2025-07-18｜公開技術路線：</strong> 發表 Context Engineering 文章，講清楚 Agent 系統方向。</li>
+                                <li><strong>2025-10-16｜Manus 1.5：</strong> 重寫核心架構，提升速度與穩定性。</li>
+                                <li><strong>2025-11-22｜Browser Operator 開放：</strong> 開始支援瀏覽器操作能力。</li>
+                                <li><strong>2025-12-15｜Manus 1.6：</strong> 推出 1.6 Max / Lite，加強 app / web 開發與設計能力。</li>
+                                <li><strong>2025-12-17｜官方宣佈達到 $100M ARR：</strong> 推出約 8 個月後，官方公布收入突破 1 億美元 ARR。</li>
+                                <li><strong>2025-12-19｜Projects 加入 Connectors：</strong> 工具接駁能力進一步整合到 workspace / project 結構。</li>
+                                <li><strong>2025-12-29｜宣布加入 Meta：</strong> 官方宣布 Manus 加入 Meta，進入大型科技平台整合階段。<br>
+                                <em>▶ 點解 Meta 會買 Manus：</em>
+                                    <ol style="margin-top:5px; margin-bottom:5px;">
+                                        <li>AI 競爭已經由模型競爭轉向 Agent 競爭。</li>
+                                        <li>Manus 已經有可見嘅產品化速度。</li>
+                                        <li>Meta 需要一個更接近「執行層」嘅 AI 能力。</li>
+                                    </ol>
+                                </li>
+                                <li><strong>2026-01-27｜Skills 正式整合：</strong> Skill 系統成為更完整的 Agent 工作流能力。</li>
+                                <li><strong>2026-02-12｜Project Skills 推出：</strong> 支援以 project 為單位管理技能與流程。</li>
+                                <li><strong>2026-03-12｜Year One Letter 發表：</strong> 官方整理第一年產品方向與理念。</li>
+                                <li><strong>2026-03-16｜My Computer 上線：</strong> 推出本地電腦操作能力。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="notion-col">
+                    <div class="notion-callout">
+                        <div class="icon">💳</div>
+                        <div class="content">
+                            <h3>收費模式：唔係單純月費，而係平台 + 用量結構</h3>
+                            <p>官方 pricing 頁面：<a href="https://manus.im/pricing" target="_blank" class="notion-link">https://manus.im/pricing</a></p>
+                            
+                            <p><strong>▼ Free Plan</strong></p>
+                            <ul>
+                                <li>$0 / 月</li>
+                                <li>每日約 300 credits</li>
+                                <li>1 個 concurrent task</li>
+                                <li>2 個 scheduled tasks</li>
+                            </ul>
+                            
+                            <p><strong>▼ Pro Plan</strong></p>
+                            <ul>
+                                <li>$20 / 月起（另有 $40/月 級別，並提到有 7-day free trial）</li>
+                                <li>每月約 4,000–8,000 credits 起跳</li>
+                            </ul>
+
+                            <p><strong>▼ Team Plan</strong></p>
+                            <ul>
+                                <li>$20 / seat / 月起</li>
+                                <li>包括 team analytics、SSO、data training opt-out 等</li>
+                            </ul>
+
+                            <p>但最重要唔係 plan 名，而係 <strong>「Manus 係 credit-based system」</strong>。<br>即係唔同任務、唔同複雜度，會消耗唔同 credits。佢唔係傳統「付咗月費就無限任用」嗰種產品。</p>
+
+                            <hr>
+                            <p><strong>仲有 WebDev / Deployment 額外成本</strong></p>
+                            <p>如果你用 Manus 做嘅唔止係研究、報告，而係：<br>▶️ 部署網站、用 database、用 cloud hosting、用外部 API<br>咁就會進入 usage-based 成本範圍。</p>
+                            <p>官方 Help Center 都明確區分：<code>subscription credits</code> 與 <code>WebDev usage balance</code>。</p>
+                            <p>所以最準確理解係：<br><span class="notion-highlight">Manus = 訂閱費 + credits 消耗 + 雲端部署 / API 用量</span></p>
+                            <p>對內容創作者嚟講，如果你主要係做 research、report、slides、一般 workflow，主要成本係 credits。但如果你開始用佢整 web app、長期運作系統，就唔可以淨係睇月費。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 2. Level 1 : 自動處理 Email -->
+        <div id="doc-lv1" class="doc-view">
+            <a class="back-btn" onclick="showView('dashboard')"><i class="fa-solid fa-arrow-left"></i> 返回主頁</a>
+            <h2 class="doc-title">案例Level 1｜📩 自動處理 Email</h2>
+            
+            <div class="notion-callout">
+                <div class="icon">💡</div>
+                <div class="content">
+                    <h3>案例功能做到什麼？</h3>
+                    <p>👉 自動幫你讀取 Email，並生成合適回覆（例如禮貌拒絕合作）</p>
+                </div>
+            </div>
+
+            <div class="notion-row">
+                <div class="notion-col">
+                    <div class="notion-callout">
+                        <div class="icon">🔥</div>
+                        <div class="content">
+                            <h3>案例重點</h3>
+                            <ul>
+                                <li>不用逐句思考語氣，AI會幫你整理好</li>
+                                <li>可以處理「想拒絕但又要禮貌」的情境</li>
+                                <li>支援英文 Email，自動翻譯＋回覆</li>
+                                <li>可進一步用於分類、整理 Email</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="notion-col">
+                    <div class="notion-callout">
+                        <div class="icon">🧠</div>
+                        <div class="content">
+                            <h3>案例涉及MANUS的功能</h3>
+                            <ul>
+                                <li>連接外部帳戶（MCP Connector）</li>
+                                <li>可讀取實際 Email 內容（Connected Data Access）</li>
+                                <li>可理解郵件語境並生成回覆（AI Content Generation）</li>
+                                <li>可直接建立 Email 草稿（Action Execution）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <h3>🖼️ 操作流程</h3>
+            
+            <p><strong>1. 點擊「連接應用程式」（MCP Connector）</strong></p>
+            <img class="doc-image" src="Level 1/CleanShot 2026-04-17 at 18.02.22@2x.png" alt="點擊連接應用程式">
+
+            <p><strong>2. 連接 Gmail 帳戶</strong></p>
+            <img class="doc-image" src="Level 1/CleanShot 2026-04-17 at 18.03.49@2x.png" alt="連接 Gmail 帳戶">
+
+            <p><strong>3. 確認 AI 能讀取你的 Email</strong></p>
+            <img class="doc-image" src="Level 1/CleanShot 2026-04-17 at 18.04.49@2x.png" alt="確認 AI 讀取 Email">
+
+            <p><strong>4. 輸入需求（例如：幫我回覆呢封合作 email）</strong></p>
+            <img class="doc-image" src="Level 1/CleanShot 2026-04-17 at 18.05.54@2x.png" alt="輸入需求">
+
+            <p><strong>5. Manus 自動生成回覆並存入草稿</strong></p>
+            <img class="doc-image" src="Level 1/CleanShot 2026-04-17 at 18.07.26@2x.png" alt="生成回覆並存入草稿">
+
+            <hr>
+
+            <h3>💬 我實際用嘅 Prompt（隨意口語版）</h3>
+            <!-- 模仿 Notion 嘅 Code/Quote 區塊 -->
+            <div class="doc-code">我想你幫我DRAFT一封中文回覆郵件放草稿箱，係話多謝合作詢問，但可惜時間不適合（其實係冇乜興趣），用輕鬆又帶點FORMAL的格式回應，用DEAR XX開頭，結尾用BEST REGARDS</div>
+
+            <h3>💡 使用小貼士</h3>
+            <ul>
+                <li>唔需要寫好正式 prompt，用口語都可以</li>
+                <li>可以叫佢再改語氣（再禮貌啲 / 再直接啲）</li>
+                <li>可以延伸用法：
+                    <ul style="margin-top: 5px;">
+                        <li>幫你整理 Inbox 重點</li>
+                        <li>幫你分類郵件</li>
+                        <li>幫你翻譯＋總結英文 Email</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 3. Level 2 : 自動任務の每日AI日報 -->
+        <div id="doc-lv2" class="doc-view">
+            <a class="back-btn" onclick="showView('dashboard')"><i class="fa-solid fa-arrow-left"></i> 返回主頁</a>
+            <h2 class="doc-title">案例Level 2｜ 📰 自動任務の每日AI日報（CRON JOB）</h2>
+            
+            <div class="notion-callout">
+                <div class="icon">💡</div>
+                <div class="content">
+                    <h3>案例功能做到什麼？</h3>
+                    <p>👉 每日自動幫你整理 AI 新聞，並定時發送到 Telegram（完全自動化）<br>
+                    由「用 AI」→ 升級為「讓 AI 每日幫你工作」</p>
+                </div>
+            </div>
+
+            <div class="notion-row">
+                <div class="notion-col">
+                    <div class="notion-callout">
+                        <div class="icon">🔥</div>
+                        <div class="content">
+                            <h3>案例重點</h3>
+                            <ul>
+                                <li>由「一次性使用」變成「每日自動運作」</li>
+                                <li>可同時追蹤中英文 AI 新聞來源</li>
+                                <li>自動篩選熱門內容（Top 5）</li>
+                                <li>可加入總結＋翻譯（香港口語）</li>
+                                <li>可設定固定輸出格式（穩定產出）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="notion-col">
+                    <div class="notion-callout">
+                        <div class="icon">🧠</div>
+                        <div class="content">
+                            <h3>案例涉及MANUS的功能</h3>
+                            <ul>
+                                <li>可設定定時自動任務（Cron Job）</li>
+                                <li>可建立固定執行流程（Skill）</li>
+                                <li>可整合多來源資訊（Multi-source Aggregation）</li>
+                                <li>可自動整理＋輸出內容（AI Content Generation）</li>
+                                <li>可發送至外部平台（Integration / Automation）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <h3>🖼️ 操作流程</h3>
+            
+            <p><strong>1. 建立每日日報需求（先簡單講清楚內容）</strong></p>
+            <img class="doc-image" src="Level 2/CleanShot 2026-04-17 at 18.20.51@2x.png" alt="建立每日日報需求">
+
+            <p><strong>2. 設定 Telegram Bot（接收訊息）</strong></p>
+            <img class="doc-image" src="Level 2/CleanShot 2026-04-17 at 18.23.13@2x.png" alt="設定 Telegram Bot">
+
+            <p><strong>3. 與 Manus 逐步調整輸出內容</strong></p>
+            <div class="img-grid">
+                <img class="doc-image" src="Level 2/CleanShot 2026-04-17 at 18.33.09@2x.png" alt="逐步調整輸出內容 1">
+                <img class="doc-image" src="Level 2/CleanShot 2026-04-17 at 18.37.22@2x.png" alt="逐步調整輸出內容 2">
+            </div>
+
+            <p><strong>4. 將整個流程封裝為 Skill</strong></p>
+            <div class="img-grid">
+                <img class="doc-image" src="Level 2/CleanShot 2026-04-17 at 18.45.52@2x.png" alt="封裝為 Skill 1">
+                <img class="doc-image" src="Level 2/CleanShot 2026-04-17 at 18.49.40@2x.png" alt="封裝為 Skill 2">
+            </div>
+
+            <p><strong>5. 每日自動觸發並發送內容</strong> (左: 每日香港新聞 / 右: 每日AI日報)</p>
+            <div class="img-grid">
+                <img class="doc-image" src="Level 2/CleanShot 2026-04-17 at 18.55.39@2x.png" alt="每日香港新聞">
+                <img class="doc-image" src="Level 2/CleanShot 2026-04-18 at 01.14.59@2x.png" alt="每日AI日報">
+            </div>
+
+            <hr>
+
+            <h3>🌟 Prompt（每日AI日報の詳細完整版）</h3>
+            <div class="doc-code">幫我建立一個每日香港時間23:55傳給我的 AI 新聞速報系統，腳本要永久儲存喺 Manus Skill 目錄，確保 CRON 每次都能穩定執行。
+
+**新聞來源：**
+- 英文：The Verge + TechCrunch
+- 中文：36氪 + 量子位
+
+**篩選邏輯：** 抓取香港時間當日 00:00 後嘅所有文章，用 GPT 語意聚類，按話題被多個來源提及嘅次數排序
+選出最 HIT 嘅英文 Top 5 及中文 Top 5（唔用 keyword 過濾，直接交畀 GPT 判斷）。
+
+**訊息格式：**
+「
+━━━━━━━━━━
+ AI 日報 | [日期]
+━━━━━━━━━━
+【 今日重點】
+[分段總結，約150字，香港廣東話書面語，段與段之間空一行]
+◠◡◠◡◠◡◠◡◠◡◠◡
+【 英文 Top 5】[英文媒體名稱]
+[編號] [英文標題]
+   [繁體中文翻譯]
+時間：[ET]  |  [HKT]
+ [連結]
+ [約100字香港口語解釋，專業術語括號保留英文]
+◠◡◠◡◠◡◠◡◠◡◠◡
+【 中文 Top 5】[中文媒體名稱]
+[編號] [繁體中文標題]  [ X 個來源提及（如有）]
+時間：[HH:MM]
+ [連結]
+ [約100字香港口語解釋，專業術語括號保留英文]
+◠◡◠◡◠◡◠◡◠◡◠◡
+ 每日自動更新
+」
+
+**語言要求：**
+- 全部用香港廣東話書面語
+- 中文標題自動轉繁體
+- 專業術語括號保留英文原文，例如「大型語言模型（LLM）」
+
+**Telegram 設定請適當時候再詢問我**
+
+完成後：
+1. 將完整腳本儲存到 Skill 目錄：/home/ubuntu/skills/ai-news-bot/scripts/ai_news.py
+2. 建立 SKILL.md 說明執行步驟
+3. 先手動測試一次，確認 Telegram 收到正確格式
+4. 確認後設定每日 CRON 排程</div>
+
+            <h3>💡 使用小貼士</h3>
+            <ul>
+                <li>唔需要一開始寫完整 prompt，可以一路同 AI refine</li>
+                <li>記住「1 個 Cron = 1 個 Skill」，會穩定好多</li>
+                <li>如果唔用 Skill： 每次執行可能格式會變／漏步驟</li>
+                <li>可以延伸用法：
+                    <ul style="margin-top: 5px;">
+                        <li>每日股票分析</li>
+                        <li>每日香港新聞摘要</li>
+                        <li>每週內容靈感整理</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div id="doc-lv3" class="doc-view">
+            <a class="back-btn" onclick="showView('dashboard')"><i class="fa-solid fa-arrow-left"></i> 返回主頁</a>
+            <h2 class="doc-title">📁 案例 Level 3 | 電腦檔案自動整理系統</h2>
+            <p>內容待補...</p>
+        </div>
+        <div id="doc-lv4" class="doc-view">
+            <a class="back-btn" onclick="showView('dashboard')"><i class="fa-solid fa-arrow-left"></i> 返回主頁</a>
+            <h2 class="doc-title">🌐 案例 Level 4 | 網頁小工具集合網站</h2>
+            <p>內容待補...</p>
+        </div>
+        <div id="doc-lv5" class="doc-view">
+            <a class="back-btn" onclick="showView('dashboard')"><i class="fa-solid fa-arrow-left"></i> 返回主頁</a>
+            <h2 class="doc-title">💰 案例 Level 5 | SAAS 全端系統網站開發</h2>
+            <p>內容待補...</p>
+        </div>
+        <div id="doc-bonus1" class="doc-view">
+            <a class="back-btn" onclick="showView('dashboard')"><i class="fa-solid fa-arrow-left"></i> 返回主頁</a>
+            <h2 class="doc-title">💻 BONUS 1 | 製作 Mac 桌面 App</h2>
+            <p>內容待補...</p>
+        </div>
+        <div id="doc-bonus2" class="doc-view">
+            <a class="back-btn" onclick="showView('dashboard')"><i class="fa-solid fa-arrow-left"></i> 返回主頁</a>
+            <h2 class="doc-title">📊 BONUS 2 | AI 生成互動網站報告</h2>
+            <p>內容待補...</p>
+        </div>
+        <div id="doc-bonus3" class="doc-view">
+            <a class="back-btn" onclick="showView('dashboard')"><i class="fa-solid fa-arrow-left"></i> 返回主頁</a>
+            <h2 class="doc-title">🎮 BONUS 3 | 迷你小遊戲集合網站</h2>
+            <p>內容待補...</p>
+        </div>
+
     </div>
 
     <script>
@@ -221,21 +711,20 @@
         function showView(viewId) {
             document.getElementById('dashboard-view').style.display = 'none';
             document.querySelectorAll('.tool-view').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.doc-view').forEach(el => el.style.display = 'none');
             
             if(viewId === 'dashboard') {
-                document.getElementById('dashboard-view').style.display = 'grid';
+                document.getElementById('dashboard-view').style.display = 'block';
             } else {
                 document.getElementById(viewId).style.display = 'block';
-                // Scroll to top when opening a tool (especially useful for long doc page)
                 window.scrollTo(0, 0); 
             }
         }
 
-        // --- 1. 縮短網址 (使用 is.gd 免費 API) ---
+        // --- 1. 縮短網址 ---
         async function shortenUrl() {
             const urlInput = document.getElementById('url-input').value;
             if(!urlInput) return alert('請輸入網址！');
-            
             try {
                 const response = await fetch(`https://is.gd/create.php?format=json&url=${encodeURIComponent(urlInput)}`);
                 const data = await response.json();
@@ -245,11 +734,8 @@
                 } else {
                     alert('生成失敗，請檢查網址格式。');
                 }
-            } catch(e) {
-                alert('發生錯誤，請稍後再試。');
-            }
+            } catch(e) { alert('發生錯誤，請稍後再試。'); }
         }
-
         function copyUrl() {
             const text = document.getElementById('shortened-url').innerText;
             navigator.clipboard.writeText(text).then(() => alert('已複製到剪貼簿！'));
@@ -260,13 +746,11 @@
         let timeLeft = 25 * 60; 
         let isRunning = false;
         let isWorkMode = true; 
-
         function updateTimerDisplay() {
             const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
             const s = (timeLeft % 60).toString().padStart(2, '0');
             document.getElementById('timer-display').innerText = `${m}:${s}`;
         }
-
         function toggleTimer() {
             if (isRunning) {
                 clearInterval(timer);
@@ -286,7 +770,6 @@
             }
             isRunning = !isRunning;
         }
-
         function resetTimer() {
             clearInterval(timer);
             isRunning = false;
@@ -294,23 +777,20 @@
             timeLeft = isWorkMode ? 25 * 60 : 5 * 60;
             updateTimerDisplay();
         }
-
         function switchMode() {
             isWorkMode = !isWorkMode;
             document.getElementById('pomodoro-mode').innerText = isWorkMode ? '專注時間 (25:00)' : '休息時間 (05:00)';
             resetTimer();
         }
 
-        // --- 3. QR Code 產生器 (使用 goqr.me API) ---
+        // --- 3. QR Code 產生器 ---
         function generateQR() {
             const text = document.getElementById('qr-input').value;
             if(!text) return alert('請輸入內容！');
-            
             const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(text)}`;
             document.getElementById('qr-img').src = qrUrl;
             document.getElementById('qr-result').style.display = 'flex';
         }
-
         async function downloadQR() {
             const imgSrc = document.getElementById('qr-img').src;
             try {
@@ -324,17 +804,13 @@
                 document.body.appendChild(a);
                 a.click();
                 window.URL.revokeObjectURL(url);
-            } catch(e) {
-                alert('下載失敗，您可以嘗試 Right Click 圖片另存新檔。');
-            }
+            } catch(e) { alert('下載失敗，您可以嘗試 Right Click 圖片另存新檔。'); }
         }
 
-        // --- PWA Service Worker 註冊 ---
+        // --- PWA Service Worker ---
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js').then(reg => {
-                    console.log('ServiceWorker registered:', reg.scope);
-                }).catch(err => console.log('ServiceWorker error:', err));
+                navigator.serviceWorker.register('./sw.js').catch(err => console.log('ServiceWorker error:', err));
             });
         }
     </script>
