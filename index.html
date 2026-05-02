@@ -27,16 +27,8 @@
 
         .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
 
-        /* Welcome / Intro Box */
-        .welcome-box { background: var(--card-bg); padding: 35px; border-radius: var(--border-radius); box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 40px; border-left: 6px solid var(--primary); }
-        .welcome-box h2 { color: var(--primary); margin-bottom: 20px; font-size: 1.4rem; display: flex; align-items: center; gap: 10px;}
-        .welcome-box h3 { color: var(--primary); margin-top: 25px; margin-bottom: 10px; font-size: 1.1rem; }
-        .welcome-box p { margin-bottom: 12px; color: var(--text-main); font-size: 0.95rem; }
-        .welcome-box blockquote { background: var(--bg-color); padding: 20px; border-radius: 8px; color: #5a5a5a; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.8; border: 1px solid #e8e0d5; }
-        .welcome-box hr { border: none; border-top: 1px solid #e8e0d5; margin: 25px 0; }
-
         /* Dashboard Grid */
-        .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+        #dashboard-view { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
         .tool-card { background: var(--card-bg); padding: 30px; border-radius: var(--border-radius); box-shadow: 0 4px 15px rgba(0,0,0,0.03); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; text-align: center; border: 1px solid transparent; }
         .tool-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(139, 115, 85, 0.15); border-color: #e8e0d5; }
         .tool-card i { font-size: 2.5rem; color: var(--primary); margin-bottom: 15px; }
@@ -44,10 +36,20 @@
         .tool-card p { font-size: 0.9rem; color: var(--text-muted); }
 
         /* Tool View */
-        .tool-view { display: none; background: var(--card-bg); padding: 40px; border-radius: var(--border-radius); box-shadow: 0 4px 15px rgba(0,0,0,0.03); max-width: 700px; margin: 0 auto; text-align: center; }
+        .tool-view { display: none; background: var(--card-bg); padding: 40px; border-radius: var(--border-radius); box-shadow: 0 4px 15px rgba(0,0,0,0.03); max-width: 600px; margin: 0 auto; text-align: center; }
+        
+        /* Doc View (For text heavy pages like the guide) */
+        .doc-view { max-width: 800px; text-align: left; }
+        .doc-view h3 { color: var(--primary); margin-top: 25px; margin-bottom: 10px; font-size: 1.2rem; border-bottom: 2px solid #e8e0d5; padding-bottom: 8px; }
+        .doc-view h4 { color: var(--text-main); margin-top: 20px; margin-bottom: 10px; font-size: 1.05rem; }
+        .doc-view p, .doc-view li { margin-bottom: 12px; color: var(--text-main); font-size: 0.95rem; line-height: 1.8; }
+        .doc-view ul, .doc-view ol { margin-left: 20px; margin-bottom: 20px; }
+        .doc-view blockquote { background: var(--bg-color); padding: 20px; border-radius: 8px; color: #5a5a5a; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.8; border-left: 4px solid var(--primary); }
+        .doc-box { background: var(--bg-color); padding: 25px; border-radius: 8px; margin-bottom: 30px; }
+        
         .back-btn { display: inline-block; margin-bottom: 20px; color: var(--text-muted); cursor: pointer; text-decoration: none; font-size: 0.9rem; }
         .back-btn:hover { color: var(--primary); }
-        .tool-title { margin-bottom: 30px; color: var(--primary); }
+        .tool-title { margin-bottom: 30px; color: var(--primary); text-align: center; }
         .text-link { color: var(--primary); font-weight: bold; text-decoration: none; transition: color 0.2s; }
         .text-link:hover { color: var(--primary-hover); text-decoration: underline; }
 
@@ -78,60 +80,31 @@
     </header>
 
     <div class="container">
-        <!-- Dashboard 首頁區塊 -->
-        <div id="dashboard-view" style="display: block;">
-            
-            <!-- 新增：專案源起與思路區塊 -->
-            <div class="welcome-box">
-                <h2><i class="fa-solid fa-seedling"></i> 專案源起與思路</h2>
-                
-                <h3>初心與目標</h3>
-                <blockquote>
-                    我想整一個工具集 Dashboard 式網站，目標係將一啲日常會用到嘅小工具集中放喺同一個地方，之後可以慢慢再加新工具。<br><br>
-                    第一版先放 3 個工具：縮短網址工具、番茄時鐘、QR Code 產生器。<br>
-                    我想要嘅唔係 3 個分開嘅工具頁，而係一個有整體感、似真正產品嘅小工具 Dashboard。<br><br>
-                    首頁可以睇到工具卡片，按入去就可以使用各自功能。整體風格走簡約、有設計感、大地色系。<br>
-                    請幫我規劃頁面結構、設計首頁同工具頁、建立第一版可運作 MVP，令 3 個工具都真係可以用到，並支援 PWA（可加到手機主畫面）。<br><br>
-                    <strong>3 個工具功能要求：</strong><br>
-                    • 縮短網址：輸入長網址生成短連結，可複製。<br>
-                    • 番茄時鐘：25 分鐘專注 + 5 分鐘休息，有開始、暫停、重設功能。<br>
-                    • QR Code 產生器：輸入文字或網址即時生成 QR Code，可下載圖片。
-                </blockquote>
-
-                <hr>
-
-                <h3>AI 開發與設計思路</h3>
-                <p>💡 呢個 Dashboard 嘅概念非常好！將日常工具集中喺一個有設計感嘅平台，唔單止自己用得舒服，日後擴展做 SaaS 或者開源項目都好有潛力。</p>
-                <p>🎨 為咗配合「<strong>簡約、大地色系 (Earth Tones)、有整體感</strong>」嘅要求，介面選用米白色作為背景，配搭溫暖嘅棕色同灰褐色作為主色調，營造專注、平靜嘅使用體驗。</p>
-                <p>⚙️ 為咗最快達成 MVP（最小可行產品），所有介面與邏輯 (HTML/CSS/JS) 皆整合於單一 <code>index.html</code> 檔案中，透過簡單嘅 DOM 切換模擬單頁應用 (SPA) 嘅流暢體驗，並搭配 <code>manifest.json</code> 與 Service Worker 實現 PWA 功能，令網站可以完美安裝到手機主畫面。</p>
+        <!-- Dashboard 首頁 -->
+        <div id="dashboard-view" style="display: grid;">
+            <!-- 卡片 1 -->
+            <div class="tool-card" onclick="showView('url-tool')">
+                <i class="fa-solid fa-link"></i>
+                <h3>縮短網址</h3>
+                <p>將冗長嘅連結轉化為簡短精練嘅短網址</p>
             </div>
-
-            <!-- 卡片列表 -->
-            <div class="tools-grid">
-                <!-- 卡片 1 -->
-                <div class="tool-card" onclick="showView('url-tool')">
-                    <i class="fa-solid fa-link"></i>
-                    <h3>縮短網址</h3>
-                    <p>將冗長嘅連結轉化為簡短精練嘅短網址</p>
-                </div>
-                <!-- 卡片 2 -->
-                <div class="tool-card" onclick="showView('pomodoro-tool')">
-                    <i class="fa-solid fa-clock"></i>
-                    <h3>番茄時鐘</h3>
-                    <p>25分鐘專注，5分鐘休息，提升生產力</p>
-                </div>
-                <!-- 卡片 3 -->
-                <div class="tool-card" onclick="showView('qr-tool')">
-                    <i class="fa-solid fa-qrcode"></i>
-                    <h3>QR Code 產生器</h3>
-                    <p>輸入文字或網址，即時轉換為二維碼圖片</p>
-                </div>
-                <!-- 卡片 4 -->
-                <div class="tool-card" onclick="showView('pwa-guide-tool')">
-                    <i class="fa-solid fa-book"></i>
-                    <h3>PWA 建立教學</h3>
-                    <p>記錄如何將呢個網站部署上網並加到手機主畫面</p>
-                </div>
+            <!-- 卡片 2 -->
+            <div class="tool-card" onclick="showView('pomodoro-tool')">
+                <i class="fa-solid fa-clock"></i>
+                <h3>番茄時鐘</h3>
+                <p>25分鐘專注，5分鐘休息，提升生產力</p>
+            </div>
+            <!-- 卡片 3 -->
+            <div class="tool-card" onclick="showView('qr-tool')">
+                <i class="fa-solid fa-qrcode"></i>
+                <h3>QR Code 產生器</h3>
+                <p>輸入文字或網址，即時轉換為二維碼圖片</p>
+            </div>
+            <!-- 卡片 4 -->
+            <div class="tool-card" onclick="showView('pwa-guide-tool')">
+                <i class="fa-solid fa-book"></i>
+                <h3>專案紀錄與教學</h3>
+                <p>開發思路、檔案結構與 PWA 部署指南</p>
             </div>
         </div>
 
@@ -171,52 +144,76 @@
             </div>
         </div>
 
-        <!-- 4. PWA 建立教學工具 -->
-        <div id="pwa-guide-tool" class="tool-view" style="text-align: left;">
+        <!-- 4. PWA 建立教學工具 (文件頁面) -->
+        <div id="pwa-guide-tool" class="tool-view doc-view">
             <a class="back-btn" onclick="showView('dashboard')"><i class="fa-solid fa-arrow-left"></i> 返回主頁</a>
-            <h2 class="tool-title" style="text-align: center;">建立 PWA 工具集 Dashboard 步驟</h2>
+            <h2 class="tool-title">專案紀錄與 PWA 建立教學</h2>
             
-            <div style="background: var(--bg-color); padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                <h3 style="color: var(--primary); margin-bottom: 10px;">1. 本地測試 (Local Test)</h3>
-                <ul style="margin-left: 20px; color: var(--text-main); line-height: 1.8;">
-                    <li>於 VS Code 安裝「Live Server」擴充功能。</li>
+            <div class="doc-box">
+                <h3>📌 初心與目標</h3>
+                <blockquote>
+                    我想整一個工具集 Dashboard 式網站，目標係將一啲日常會用到嘅小工具集中放喺同一個地方，之後可以慢慢再加新工具。<br><br>
+                    第一版先放 3 個工具：縮短網址工具、番茄時鐘、QR Code 產生器。<br>
+                    我想要嘅唔係 3 個分開嘅工具頁，而係一個有整體感、似真正產品嘅小工具 Dashboard。<br>
+                    首頁可以睇到工具卡片，按入去就可以使用各自功能。整體風格走簡約、有設計感、大地色系。<br><br>
+                    請幫我規劃頁面結構、設計首頁同工具頁、建立第一版可運作 MVP，令 3 個工具都真係可以用到，並支援 PWA（可加到手機主畫面）。<br><br>
+                    <strong>3 個工具功能要求：</strong><br>
+                    • 縮短網址：輸入長網址生成短連結，可複製。<br>
+                    • 番茄時鐘：25 分鐘專注 + 5 分鐘休息，有開始、暫停、重設功能。<br>
+                    • QR Code 產生器：輸入文字或網址即時生成 QR Code，可下載圖片。
+                </blockquote>
+
+                <h3>💡 AI 開發與設計思路</h3>
+                <p>呢個 Dashboard 嘅概念非常好！將日常工具集中喺一個有設計感嘅平台，唔單止自己用得舒服，日後擴展做 SaaS 或者開源項目都好有潛力。</p>
+                <p>為咗配合你要求嘅「簡約、大地色系 (Earth Tones)、有整體感」，我哋會用米白色作為背景，配搭溫暖嘅棕色同灰褐色作為主色調。為咗令你可以最快測試呢個 MVP（最小可行產品），我會將 HTML、CSS 同 JavaScript 寫喺同一個 index.html 檔案入面，並透過簡單嘅 DOM 切換嚟模擬單頁應用（SPA）嘅流暢體驗。另外會提供 PWA 必需嘅 manifest.json 同 Service Worker。</p>
+
+                <h4>📁 專案檔案結構</h4>
+                <p>喺電腦開一個新資料夾（例如 tool-dashboard），包含以下 3 個核心檔案：</p>
+                <ul>
+                    <li><strong>1. index.html (主程式、UI 同邏輯)：</strong> 包含咗大地色系嘅 CSS 設計、Dashboard 卡片佈局，以及 3 個工具嘅完整運作邏輯。</li>
+                    <li><strong>2. manifest.json (PWA 設定)：</strong> 呢個檔案會話畀瀏覽器知，呢個網站可以安裝成為手機 App。</li>
+                    <li><strong>3. sw.js (Service Worker)：</strong> 加入 Service Worker 可以令你嘅網站喺手機加落主畫面後，即使網絡唔穩定都可以秒速開啟 UI，支援離線快取。</li>
+                </ul>
+            </div>
+
+            <div class="doc-box">
+                <h3>🚀 PWA 部署與上線步驟</h3>
+                <p>既然已經準備好上述 3 個檔案，接下來嘅核心目標係測試同埋發佈：</p>
+
+                <h4>步驟一：喺自己電腦做本地測試 (Local Test)</h4>
+                <ol>
+                    <li>基於瀏覽器安全限制，PWA 嘅離線快取技術 (Service Worker) 唔允許你直接 double-click 檔案（即 file:/// 網址）嚟運作。你需要一個本地伺服器。</li>
+                    <li>使用 VS Code 編輯器，去左側 Extension 搜尋並安裝「Live Server」。</li>
                     <li>Right-click <code>index.html</code>，選擇「Open with Live Server」。</li>
-                    <li>喺瀏覽器預覽並測試 3 個小工具功能。</li>
-                </ul>
-            </div>
+                    <li>瀏覽器會彈出類似 <code>http://127.0.0.1:5500</code> 嘅網址，你就可以喺電腦完美測試。</li>
+                </ol>
 
-            <div style="background: var(--bg-color); padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                <h3 style="color: var(--primary); margin-bottom: 10px;">2. 上傳至 GitHub (儲存庫)</h3>
-                <ul style="margin-left: 20px; color: var(--text-main); line-height: 1.8;">
-                    <li>登入 <a href="https://github.com/" target="_blank" class="text-link">GitHub</a>，點擊右上角「+」建立 New repository。</li>
-                    <li>設定名稱 (如 <code>toolbox-dashboard</code>) 並設為 Public。</li>
-                    <li>點擊「uploading an existing file」，將 <code>index.html</code>, <code>manifest.json</code>, <code>sw.js</code> 直接拖曳上傳。</li>
+                <h4>步驟二：建立 <a href="https://github.com" target="_blank" class="text-link">GitHub</a> Repository (儲存庫)</h4>
+                <ol>
+                    <li>登入 GitHub 後，喺右上角撳 + 號，揀「New repository」。</li>
+                    <li>設定名稱 (例如 <code>toolbox-dashboard</code>) 並設為 Public，撳「Create repository」。</li>
+                    <li>點擊「uploading an existing file」，將 3 個檔案直接拖曳上傳。</li>
                     <li>*(注意：確保檔案直接放喺最外層，唔好包喺資料夾入面)*。</li>
-                    <li>點擊「Commit changes」儲存。</li>
-                </ul>
-            </div>
+                    <li>拉到底部點擊「Commit changes」儲存。</li>
+                </ol>
 
-            <div style="background: var(--bg-color); padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                <h3 style="color: var(--primary); margin-bottom: 10px;">3. 部署至 Vercel (免費上線)</h3>
-                <ul style="margin-left: 20px; color: var(--text-main); line-height: 1.8;">
-                    <li>登入 <a href="https://vercel.com/" target="_blank" class="text-link">Vercel</a> 點擊「Add New...」>「Project」。</li>
-                    <li>選擇從 GitHub Import，並授權 Vercel 讀取帳戶。</li>
-                    <li>搵返頭先建立嘅 GitHub Repository，點擊「Import」並直接「Deploy」。</li>
-                    <li>等待幾十秒，Vercel 就會提供一條真實網址 (例如 <code>...vercel.app</code>)。</li>
-                </ul>
-            </div>
+                <h4>步驟三：喺 <a href="https://vercel.com" target="_blank" class="text-link">Vercel</a> 免費部署上網</h4>
+                <ol>
+                    <li>登入 Vercel 點擊「Add New...」>「Project」。</li>
+                    <li>選擇從 GitHub Import，並授權 Vercel 讀取你嘅帳戶。</li>
+                    <li>搵返頭先建立嘅 <code>toolbox-dashboard</code>，撳「Import」並直接「Deploy」。</li>
+                    <li>等待幾十秒，Vercel 就會提供一條真實網址。日後你喺電腦改完 Code 上傳 GitHub，Vercel 就會自動更新網站。</li>
+                </ol>
 
-            <div style="background: var(--bg-color); padding: 20px; border-radius: 8px;">
-                <h3 style="color: var(--primary); margin-bottom: 10px;">4. 手機 PWA 實測 (加至主畫面)</h3>
-                <ul style="margin-left: 20px; color: var(--text-main); line-height: 1.8;">
+                <h4>步驟四：手機 PWA 實測 (Mobile Test)</h4>
+                <ol>
                     <li>用手機瀏覽器打開 Vercel 提供嘅網址。</li>
-                    <li><strong>iPhone (Safari)：</strong>點擊底部「分享」按鈕，選擇「加至主畫面」。</li>
-                    <li><strong>Android (Chrome)：</strong>點擊右上角選單，選擇「新增至主畫面」或「安裝應用程式」。</li>
-                    <li>返回手機桌面，就可以好似原生 App 咁點擊使用！</li>
-                </ul>
+                    <li><strong>iPhone 用戶 (Safari)：</strong> 撳畫面底部的「分享」掣，慢慢向下拉，揀「加至主畫面 (Add to Home Screen)」。</li>
+                    <li><strong>Android 用戶 (Chrome)：</strong> 瀏覽器通常會主動彈出提示；如果冇，可以撳右上角三點選單揀安裝。</li>
+                    <li>裝完之後返回手機桌面打開，你會發現冇咗瀏覽器嘅網址列，好似一個原生 App 咁！</li>
+                </ol>
             </div>
         </div>
-
     </div>
 
     <script>
@@ -226,9 +223,11 @@
             document.querySelectorAll('.tool-view').forEach(el => el.style.display = 'none');
             
             if(viewId === 'dashboard') {
-                document.getElementById('dashboard-view').style.display = 'block';
+                document.getElementById('dashboard-view').style.display = 'grid';
             } else {
                 document.getElementById(viewId).style.display = 'block';
+                // Scroll to top when opening a tool (especially useful for long doc page)
+                window.scrollTo(0, 0); 
             }
         }
 
