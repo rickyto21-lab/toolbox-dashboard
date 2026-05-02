@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToolBox Dashboard</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#f4f1ea">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f4f1ea;      /* 米白背景 */
+            --card-bg: #ffffff;       /* 卡片白 */
+            --primary: #8b7355;       /* 大地棕 */
+            --primary-hover: #705b42; 
+            --text-main: #4a4a4a;     /* 深灰文字 */
+            --text-muted: #8c8c8c;
+            --border-radius: 16px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
+
+        header { padding: 20px 40px; background: var(--card-bg); box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: space-between; }
+        header h1 { font-size: 1.5rem; color: var(--primary); cursor: pointer; }
+
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+
+        /* Dashboard Grid */
+        #dashboard-view { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+        .tool-card { background: var(--card-bg); padding: 30px; border-radius: var(--border-radius); box-shadow: 0 4px 15px rgba(0,0,0,0.03); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; text-align: center; border: 1px solid transparent; }
+        .tool-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(139, 115, 85, 0.15); border-color: #e8e0d5; }
+        .tool-card i { font-size: 2.5rem; color: var(--primary); margin-bottom: 15px; }
+        .tool-card h3 { font-size: 1.2rem; margin-bottom: 10px; }
+        .tool-card p { font-size: 0.9rem; color: var(--text-muted); }
+
+        /* Tool View */
+        .tool-view { display: none; background: var(--card-bg); padding: 40px; border-radius: var(--border-radius); box-shadow: 0 4px 15px rgba(0,0,0,0.03); max-width: 600px; margin: 0 auto; text-align: center; }
+        .back-btn { display: inline-block; margin-bottom: 20px; color: var(--text-muted); cursor: pointer; text-decoration: none; font-size: 0.9rem; }
+        .back-btn:hover { color: var(--primary); }
+        .tool-title { margin-bottom: 30px; color: var(--primary); }
+
+        /* Inputs & Buttons */
+        input[type="text"], input[type="url"] { width: 100%; padding: 12px 15px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; outline: none; transition: border 0.3s; }
+        input:focus { border-color: var(--primary); }
+        button { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 1rem; transition: background 0.3s; }
+        button:hover { background: var(--primary-hover); }
+        button.secondary { background: #e8e0d5; color: var(--primary); }
+        button.secondary:hover { background: #d6cab8; }
+
+        /* Result areas */
+        .result-box { margin-top: 20px; padding: 15px; background: var(--bg-color); border-radius: 8px; word-break: break-all; display: none; }
+        
+        /* Pomodoro Specific */
+        .timer-display { font-size: 4rem; font-weight: bold; color: var(--primary); margin: 20px 0; }
+        .timer-controls { display: flex; gap: 10px; justify-content: center; }
+
+        /* QR Specific */
+        #qr-result { margin-top: 20px; display: none; flex-direction: column; align-items: center; }
+        #qr-result img { max-width: 200px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ddd; padding: 10px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 onclick="showView('dashboard')"><i class="fa-solid fa-toolbox"></i> ToolBox</h1>
+    </header>
+
+    <div class="container">
+        <!-- Dashboard 首頁 -->
+        <div id="dashboard-view">
+            <div class="tool-card" onclick="showView('url-tool')">
+                <i class="fa-solid fa-link"></i>
+                <h3>縮短網址</h3>
+                <p>將冗長嘅連結轉化為簡短精練嘅短網址</p>
+            </div>
+            <div class="tool-card" onclick="showView('pomodoro-tool')">
+                <i class="fa-solid fa-clock"></i>
+                <h3>番茄時鐘</h3>
+                <p>25分鐘專注，5分鐘休息，提升生產力</p>
+            </div>
+            <div class="tool-card" onclick="showView('qr-tool')">
+                <i class="fa-solid fa-qrcode"></i>
+                <h3>QR Code 產生器</h3>
+                <p>輸入文字或網址，即時轉換為二維碼圖片</p>
+            </div>
+        </div>
+
+        <!-- 1. 縮短網址工具 -->
+        <div id="url-tool" class="tool-view">
+            <a class="back-btn" onclick="showView('dashboard')"><i class="fa-solid fa-arrow-left"></i> 返回主頁</a>
+            <h2 class="tool-title">縮短網址</h2>
+            <input type="url" id="url-input" placeholder="請貼上長網址 (例如: https://...)">
+            <button onclick="shortenUrl()">生成短網址</button>
+            <div id="url-result" class="result-box">
+                <p id="shortened-url" style="font-weight:bold; margin-bottom:10px;"></p>
+                <button class="secondary" onclick="copyUrl()"><i class="fa-regular fa-copy"></i> 複製</button>
+            </div>
+        </div>
+
+        <!-- 2. 番茄時鐘工具 -->
+        <div id="pomodoro-tool" class="tool-view">
+            <a class="back-btn" onclick="showView('dashboard')"><i class="fa-solid fa-arrow-left"></i> 返回主頁</a>
+            <h2 class="tool-title" id="pomodoro-mode">專注時間 (25:00)</h2>
+            <div class="timer-display" id="timer-display">25:00</div>
+            <div class="timer-controls">
+                <button id="start-btn" onclick="toggleTimer()">開始</button>
+                <button class="secondary" onclick="resetTimer()">重設</button>
+                <button class="secondary" onclick="switchMode()">切換模式 (專注/休息)</button>
+            </div>
+        </div>
+
+        <!-- 3. QR Code 產生器工具 -->
+        <div id="qr-tool" class="tool-view">
+            <a class="back-btn" onclick="showView('dashboard')"><i class="fa-solid fa-arrow-left"></i> 返回主頁</a>
+            <h2 class="tool-title">QR Code 產生器</h2>
+            <input type="text" id="qr-input" placeholder="輸入文字或網址...">
+            <button onclick="generateQR()">產生 QR Code</button>
+            <div id="qr-result">
+                <img id="qr-img" src="" alt="QR Code">
+                <button class="secondary" onclick="downloadQR()"><i class="fa-solid fa-download"></i> 下載圖片</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 視圖切換邏輯 (SPA Routing) ---
+        function showView(viewId) {
+            document.getElementById('dashboard-view').style.display = 'none';
+            document.querySelectorAll('.tool-view').forEach(el => el.style.display = 'none');
+            
+            if(viewId === 'dashboard') {
+                document.getElementById('dashboard-view').style.display = 'grid';
+            } else {
+                document.getElementById(viewId).style.display = 'block';
+            }
+        }
+
+        // --- 1. 縮短網址 (使用 is.gd 免費 API) ---
+        async function shortenUrl() {
+            const urlInput = document.getElementById('url-input').value;
+            if(!urlInput) return alert('請輸入網址！');
+            
+            try {
+                // 使用 is.gd API，唔需要 API key 即可快速測試
+                const response = await fetch(`https://is.gd/create.php?format=json&url=${encodeURIComponent(urlInput)}`);
+                const data = await response.json();
+                if(data.shorturl) {
+                    document.getElementById('shortened-url').innerText = data.shorturl;
+                    document.getElementById('url-result').style.display = 'block';
+                } else {
+                    alert('生成失敗，請檢查網址格式。');
+                }
+            } catch(e) {
+                alert('發生錯誤，請稍後再試。');
+            }
+        }
+
+        function copyUrl() {
+            const text = document.getElementById('shortened-url').innerText;
+            navigator.clipboard.writeText(text).then(() => alert('已複製到剪貼簿！'));
+        }
+
+        // --- 2. 番茄時鐘 ---
+        let timer;
+        let timeLeft = 25 * 60; // 預設 25 分鐘
+        let isRunning = false;
+        let isWorkMode = true; // true = 25m, false = 5m
+
+        function updateTimerDisplay() {
+            const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+            const s = (timeLeft % 60).toString().padStart(2, '0');
+            document.getElementById('timer-display').innerText = `${m}:${s}`;
+        }
+
+        function toggleTimer() {
+            if (isRunning) {
+                clearInterval(timer);
+                document.getElementById('start-btn').innerText = '繼續';
+            } else {
+                timer = setInterval(() => {
+                    if (timeLeft > 0) {
+                        timeLeft--;
+                        updateTimerDisplay();
+                    } else {
+                        clearInterval(timer);
+                        alert(isWorkMode ? '專注時間結束！休息一下啦。' : '休息結束！開始工作。');
+                        switchMode();
+                    }
+                }, 1000);
+                document.getElementById('start-btn').innerText = '暫停';
+            }
+            isRunning = !isRunning;
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            isRunning = false;
+            document.getElementById('start-btn').innerText = '開始';
+            timeLeft = isWorkMode ? 25 * 60 : 5 * 60;
+            updateTimerDisplay();
+        }
+
+        function switchMode() {
+            isWorkMode = !isWorkMode;
+            document.getElementById('pomodoro-mode').innerText = isWorkMode ? '專注時間 (25:00)' : '休息時間 (05:00)';
+            resetTimer();
+        }
+
+        // --- 3. QR Code 產生器 (使用 goqr.me API) ---
+        function generateQR() {
+            const text = document.getElementById('qr-input').value;
+            if(!text) return alert('請輸入內容！');
+            
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(text)}`;
+            document.getElementById('qr-img').src = qrUrl;
+            document.getElementById('qr-result').style.display = 'flex';
+        }
+
+        async function downloadQR() {
+            const imgSrc = document.getElementById('qr-img').src;
+            try {
+                const response = await fetch(imgSrc);
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = 'qrcode.png';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+            } catch(e) {
+                alert('下載失敗，您可以嘗試 Right Click 圖片另存新檔。');
+            }
+        }
+
+        // --- PWA Service Worker 註冊 ---
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').then(reg => {
+                    console.log('ServiceWorker registered:', reg.scope);
+                }).catch(err => console.log('ServiceWorker error:', err));
+            });
+        }
+    </script>
+</body>
+</html>

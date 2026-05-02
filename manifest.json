@@ -1,0 +1,16 @@
+{
+  "name": "ToolBox Dashboard",
+  "short_name": "ToolBox",
+  "description": "日常小工具 Dashboard，包含縮短網址、番茄時鐘同 QR Code 產生器。",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#f4f1ea",
+  "theme_color": "#8b7355",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2885/2885412.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
