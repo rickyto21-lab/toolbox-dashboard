@@ -49,6 +49,8 @@
         .doc-view { display: none; background: var(--card-bg); padding: 50px; border-radius: var(--border-radius); box-shadow: 0 4px 15px rgba(0,0,0,0.03); max-width: 900px; margin: 0 auto; text-align: left; }
         .doc-view h2.doc-title { font-size: 2.2rem; font-weight: 700; color: var(--text-main); margin-bottom: 30px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
         .doc-view h3 { font-size: 1.3rem; font-weight: 600; color: var(--text-main); margin-top: 35px; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+        .doc-view h4 { font-size: 1.1rem; font-weight: 600; color: var(--text-main); margin-top: 25px; margin-bottom: 10px; }
+        .doc-view p { margin-bottom: 15px; font-size: 1rem; }
         
         /* Notion Blocks */
         .notion-row { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px; }
@@ -80,6 +82,37 @@
 
         .back-btn { display: inline-block; margin-bottom: 20px; color: var(--text-muted); cursor: pointer; text-decoration: none; font-size: 0.9rem; }
         .back-btn:hover { color: var(--primary); }
+
+        /* ====== 新增：Prompt 筆記專屬卡片樣式 ====== */
+        .prompt-card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); margin-bottom: 24px; border: 1px solid #e5e7eb; transition: box-shadow 0.3s; }
+        .prompt-card:hover { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        .border-t-blue { border-top: 4px solid #3b82f6; }
+        .border-t-emerald { border-top: 4px solid #10b981; }
+        .border-t-purple { border-top: 4px solid #8b5cf6; }
+        
+        .prompt-badge-blue { background: #eff6ff; color: #1d4ed8; padding: 12px; border-radius: 8px; border: 1px solid #dbeafe; font-weight: 600; margin-bottom: 20px; }
+        .prompt-keyword { display: inline-flex; align-items: center; gap: 8px; background: #f3f4f6; color: #374151; padding: 8px 16px; border-radius: 6px; font-family: monospace; font-size: 0.9rem; border: 1px solid #e5e7eb; }
+        
+        .prompt-grid-2 { display: grid; grid-template-columns: 1fr; gap: 24px; }
+        @media (min-width: 768px) { .prompt-grid-2 { grid-template-columns: 1fr 1fr; } }
+        
+        .prompt-box-gray { background: #f8fafc; padding: 24px; border-radius: 12px; border: 1px solid #e2e8f0; }
+        .prompt-box-indigo { background: #eef2ff; padding: 24px; border-radius: 12px; border: 1px solid #e0e7ff; }
+        .prompt-inner-box { background: white; padding: 16px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.05); margin-bottom: 16px; }
+        
+        .prompt-tag-green { background: #ecfdf5; color: #047857; padding: 8px 12px; border-radius: 8px; border: 1px solid #d1fae5; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+        .prompt-tag-indigo { background: #e0e7ff; color: #4338ca; padding: 8px 12px; border-radius: 8px; border: 1px solid #c7d2fe; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+        
+        .prompt-core-badge { background: #faf5ff; color: #7e22ce; padding: 12px 24px; border-radius: 50px; border: 1px solid #f3e8ff; font-weight: 600; font-size: 1.1rem; display: inline-block; margin-bottom: 16px; }
+        .prompt-gradient-box { background: linear-gradient(to bottom right, #faf5ff, #fdf2f8); padding: 32px; border-radius: 16px; border: 1px solid #f3e8ff; }
+        .prompt-circle-num { background: #f3e8ff; color: #7e22ce; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        
+        .prompt-8-words { display: inline-block; background: #9333ea; color: white; padding: 16px 32px; border-radius: 12px; font-weight: bold; font-size: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); letter-spacing: 2px; margin: 16px 0; }
+
+        .prompt-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .prompt-table th { background: #f3f4f6; padding: 12px; text-align: left; font-weight: 600; border-bottom: 2px solid #e5e7eb; }
+        .prompt-table td { padding: 12px; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
+        .prompt-table tr:last-child td { border-bottom: none; }
 
         /* Inputs & Buttons */
         input[type="text"], input[type="url"] { width: 100%; padding: 12px 15px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; outline: none; transition: border 0.3s; }
@@ -121,6 +154,15 @@
                     <i class="fa-solid fa-qrcode"></i>
                     <h3>QR Code 產生器</h3>
                     <p>輸入文字/網址轉換為二維碼</p>
+                </div>
+            </div>
+
+            <h2 class="section-title"><i class="fa-solid fa-book-open"></i> AI 應用實戰筆記</h2>
+            <div class="tools-grid">
+                <div class="tool-card" style="border-top: 4px solid #3b82f6;" onclick="showView('doc-prompt-intro')">
+                    <span class="emoji-icon">💬</span>
+                    <h3>Prompt 基礎概念</h3>
+                    <p>什麼是 Prompt？兩大核心原則與應用場景</p>
                 </div>
             </div>
 
@@ -213,8 +255,152 @@
             </div>
         </div>
 
-        <!-- ================= 專案紀錄內容 (10個頁面) ================= -->
-        
+        <!-- ================= 新增：AI 筆記內容 ================= -->
+        <div id="doc-prompt-intro" class="doc-view">
+            <a class="back-btn" onclick="showView('dashboard')"><i class="fa-solid fa-arrow-left"></i> 返回主頁</a>
+            <h2 class="doc-title" style="border-bottom:none; margin-bottom:10px;">📝 Prompt 基礎概念</h2>
+            <p style="color:var(--text-muted); margin-bottom: 30px;">AI 應用實戰筆記</p>
+            
+            <!-- 卡片 1：什麼是 Prompt？ -->
+            <div class="prompt-card border-t-blue">
+                <h3 style="margin-top:0; color:#1f2937;">
+                    <span style="color:#3b82f6;">💬</span> 什麼是 Prompt？
+                </h3>
+                <p><strong>Prompt（中文：提示詞）</strong>，就係你喺 AI 輸入框打入嘅所有文字。</p>
+                <div class="prompt-badge-blue">
+                    無論係問題、請求、指示、對話——通通都叫 Prompt！
+                </div>
+                <div class="prompt-keyword">
+                    <span>🔍 AI關鍵字：</span>
+                    <span style="text-decoration: underline; text-underline-offset: 4px; text-decoration-color: #9ca3af;">PROMPT</span>
+                </div>
+            </div>
+
+            <!-- 卡片 2：Prompt 分兩種 -->
+            <div class="prompt-card border-t-emerald">
+                <h3 style="margin-top:0;">✌️ Prompt 分兩種</h3>
+                <p style="color:#4b5563; margin-bottom: 24px;">大部分時候，你可以好隨意咁問，就好似同朋友 WhatsApp 傾偈咁，AI 一樣識答你！所以我會將 Prompt 分成兩種用法：</p>
+
+                <div class="prompt-grid-2">
+                    <!-- 隨意 Prompt -->
+                    <div class="prompt-box-gray">
+                        <h4 style="margin-top:0; color:#1e293b;">
+                            <span style="background:#e2e8f0; color:#334155; padding:2px 8px; border-radius:4px; font-family:monospace; margin-right:8px;">1️⃣</span>隨意 Prompt <span style="font-weight:normal; color:#64748b; font-size:1rem;">→ 即興問問題</span>
+                        </h4>
+                        <div class="prompt-inner-box">
+                            <p style="font-weight:bold; margin-bottom:8px;">例如：</p>
+                            <ul style="margin-left: 20px; color:#475569;">
+                                <li>「雞蛋點煮好食啲？」</li>
+                                <li>「日本最長嘅河叫咩名？」</li>
+                                <li>「點煮好味啲公仔麵？」</li>
+                                <li>「世界上最快嘅動物係咩？」</li>
+                                <li>「Python 係咩嚟？」</li>
+                            </ul>
+                        </div>
+                        <p style="font-size:0.9rem; color:#64748b; margin-bottom:16px;">呢啲問題 AI 都可以秒速答你，因為只係搵資料嚟答你。<br>（細細聲講，其實我平時都係咁用，90% 都係即興問 😆）</p>
+                        <div class="prompt-tag-green">
+                            <span>✅</span> 用途：搵知識、快問快答、解決即時疑問。
+                        </div>
+                    </div>
+
+                    <!-- 精準 Prompt -->
+                    <div class="prompt-box-indigo">
+                        <h4 style="margin-top:0; color:#312e81;">
+                            <span style="background:#c7d2fe; color:#3730a3; padding:2px 8px; border-radius:4px; font-family:monospace; margin-right:8px;">2️⃣</span>精準 Prompt <span style="font-weight:normal; color:#6366f1; font-size:1rem;">→ 比 AI 做深入任務</span>
+                        </h4>
+                        <p style="color:#3730a3; margin-bottom:12px;">如果你想 AI 幫你做啲深入啲、複雜啲嘅任務，例如：</p>
+                        <div class="prompt-inner-box" style="color:#4338ca;">
+                            <ul style="margin-left: 20px;">
+                                <li>寫文章</li>
+                                <li>給創作靈感</li>
+                                <li>比專業建議</li>
+                                <li>分析數據／報告</li>
+                                <li>設計內容框架…</li>
+                            </ul>
+                        </div>
+                        <div class="prompt-tag-indigo">
+                            <span>🎯</span> 就要學識寫精準 Prompt！
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 比較表格 -->
+                <table class="prompt-table">
+                    <thead>
+                        <tr>
+                            <th width="20%">分類</th>
+                            <th width="25%">說明</th>
+                            <th width="35%">例子</th>
+                            <th width="20%">適用場景</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>隨意 Prompt</strong></td>
+                            <td>即興輸入、唔需特別結構，AI 都能理解回應</td>
+                            <td>
+                                <ul style="margin-left: 15px; margin-bottom:0; font-size:0.95rem;">
+                                    <li>雞蛋點煮好食啲？</li>
+                                    <li>Python 係咩？</li>
+                                    <li>世界最快動物係咩？</li>
+                                </ul>
+                            </td>
+                            <td>快問快答、資料查詢、日常應用</td>
+                        </tr>
+                        <tr>
+                            <td><strong>精準 Prompt</strong></td>
+                            <td>有清晰指令、目標、語氣要求，適合進行深入任務</td>
+                            <td style="font-size:0.95rem;">「請幫我寫一篇約 500 字嘅文章，主題係『環保生活建議』。語氣要親切易明，好似同朋友傾偈咁，分段清楚，開頭要有吸引句，結尾要有實用小總結。」</td>
+                            <td>寫作、分析、創作、專業協作任務</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 卡片 3：精準 Prompt 核心與原則 -->
+            <div class="prompt-card border-t-purple">
+                <div style="text-align:center; margin-bottom:32px;">
+                    <h3 style="color:#581c87; margin-top:0;">精準 Prompt 核心</h3>
+                    <div class="prompt-core-badge">
+                        將你諗緊嘅嘢 ➜ 變成 AI 明嘅說話
+                    </div>
+                    <p style="color:#374151; font-size:1.1rem; max-width:700px; margin:0 auto;">
+                        即係話，你要將你腦入面嘅想法、目標、要求，<strong style="color:#7e22ce;">轉化成清晰、具體、指令式嘅語句</strong>，先令 AI 幫得上手！
+                    </p>
+                </div>
+
+                <div class="prompt-gradient-box">
+                    <h4 style="text-align:center; color:#581c87; margin-top:0; font-size:1.3rem;">✅ 精準 Prompt 嘅兩大原則</h4>
+                    
+                    <div class="prompt-grid-2" style="margin-top:24px; margin-bottom:32px;">
+                        <div style="background:white; padding:20px; border-radius:12px; box-shadow:0 1px 2px rgba(0,0,0,0.05);">
+                            <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+                                <div class="prompt-circle-num">1</div>
+                                <h5 style="margin:0; font-size:1.1rem; color:#1f2937;">足夠資訊</h5>
+                            </div>
+                            <p style="color:#4b5563; margin:0;">你要 AI 扮演邊個？針對邊個對象？有冇提供資料背景？</p>
+                        </div>
+                        <div style="background:white; padding:20px; border-radius:12px; box-shadow:0 1px 2px rgba(0,0,0,0.05);">
+                            <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+                                <div class="prompt-circle-num">2</div>
+                                <h5 style="margin:0; font-size:1.1rem; color:#1f2937;">清晰指引</h5>
+                            </div>
+                            <p style="color:#4b5563; margin:0;">你想要邊類型回應？語氣係點？長短幾多？格式有冇要求？</p>
+                        </div>
+                    </div>
+
+                    <div style="text-align:center;">
+                        <p style="color:#4b5563; font-weight:500; margin-bottom:8px;">📌 所以要記住 8 字真言：</p>
+                        <div class="prompt-8-words">
+                            「足夠資訊，清晰指引」
+                        </div>
+                        <p style="color:#6b21a8; font-weight:bold; font-size:1.1rem; margin-top:8px;">呢個，就係所有 Prompt 技巧嘅核心原則！</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= 專案紀錄內容 (保留先前的 10 個頁面) ================= -->
         <!-- 0. PWA 建立教學 -->
         <div id="pwa-guide-tool" class="doc-view">
             <a class="back-btn" onclick="showView('dashboard')"><i class="fa-solid fa-arrow-left"></i> 返回主頁</a>
@@ -227,27 +413,138 @@
             <div class="notion-callout">
                 <div class="icon">💡</div>
                 <div class="content">
-                    <p><strong>核心目標：</strong> 將日常會用到嘅小工具集中喺同一個有設計感嘅地方，並支援 PWA 技術，令網站可以好似原生 App 咁安裝到手機主畫面。</p>
+                    <p><strong>初心與目標：</strong> 呢個 Dashboard 嘅概念非常好！將日常工具集中喺一個有設計感嘅平台，唔單止自己用得舒服，日後擴展做 SaaS 或者開源項目都好有潛力。</p>
                 </div>
             </div>
 
-            <h3>1. 開發與設計思路</h3>
-            <p>為咗配合「簡約、大地色系 (Earth Tones)」嘅要求，網站使用米白色 <code>#f4f1ea</code> 作為背景，配搭溫暖嘅棕色 <code>#8b7355</code> 作為主色調。為咗最快達成 MVP（最小可行產品），所有邏輯皆整合於單一 <code>index.html</code> 中，透過 DOM 切換模擬單頁應用 (SPA) 嘅流暢體驗。</p>
+            <h3>設計思路</h3>
+            <p>為咗配合你要求嘅「簡約、大地色系 (Earth Tones)、有整體感」，我哋會用米白色作為背景，配搭溫暖嘅棕色同灰褐色作為主色調。為咗令你可以最快測試呢個 MVP（最小可行產品），我會將 HTML、CSS 同 JavaScript 寫喺同一個 <code>index.html</code> 檔案入面，並透過簡單嘅 DOM 切換嚟模擬單頁應用（SPA）嘅流暢體驗。另外會提供 PWA 必需嘅 <code>manifest.json</code> 同 Service Worker。</p>
 
-            <h3>2. 核心檔案結構</h3>
+            <h3>📁 專案檔案結構</h3>
+            <p>請喺你嘅電腦開一個新資料夾（例如 <code>tool-dashboard</code>），然後建立以下 3 個檔案：</p>
             <ul>
-                <li><strong>index.html：</strong> 主程式、UI 與所有工具邏輯。</li>
-                <li><strong>manifest.json：</strong> PWA 應用程式清單，定義 App 名稱、顏色與圖示。</li>
-                <li><strong>sw.js：</strong> Service Worker，提供離線快取支援。</li>
+                <li><strong>index.html</strong> (主程式、UI 同邏輯)</li>
+                <li><strong>manifest.json</strong> (PWA 設定)</li>
+                <li><strong>sw.js</strong> (Service Worker，令 PWA 支援離線快取)</li>
             </ul>
 
-            <h3>3. 部署至 Vercel (免費上線)</h3>
-            <ol>
-                <li>登入 <a href="https://github.com/" target="_blank" class="notion-link">GitHub</a> 建立 Public Repository。</li>
-                <li>將上述 3 個檔案拖曳上傳至最外層（Root directory）。</li>
-                <li>登入 <a href="https://vercel.com/" target="_blank" class="notion-link">Vercel</a>，點擊「Add New Project」並從 GitHub 匯入。</li>
-                <li>點擊 Deploy，幾十秒後即可獲得真實網址。</li>
-            </ol>
+            <h3>1. 核心代碼：index.html</h3>
+            <p>呢個檔案包含咗大地色系嘅 CSS 設計、Dashboard 卡片佈局，以及 3 個工具嘅完整運作邏輯。（代碼已在主程式運作中）</p>
+
+            <h3>2. PWA 設定檔：manifest.json</h3>
+            <p>呢個檔案會話畀瀏覽器知，呢個網站可以安裝成為手機 App。<br><span style="color: var(--text-muted); font-size: 0.9em;">(備註：icon 我暫時借用咗一張網上免費圖示作示範，日後你可以換成自己設計嘅 512x512 PNG 圖)</span></p>
+            <div class="doc-code">{
+  "name": "ToolBox Dashboard",
+  "short_name": "ToolBox",
+  "description": "日常小工具 Dashboard，包含縮短網址、番茄時鐘同 QR Code 產生器。",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#f4f1ea",
+  "theme_color": "#8b7355",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2885/2885412.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}</div>
+
+            <h3>3. PWA 離線快取：sw.js</h3>
+            <p>加入 Service Worker 可以令你嘅網站喺手機加落主畫面後，即使網絡唔穩定都可以秒速開啟 UI。</p>
+            <div class="doc-code">const CACHE_NAME = 'toolbox-cache-v1';
+const urlsToCache = [
+  './index.html',
+  './manifest.json'
+];
+
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => {
+        return cache.addAll(urlsToCache);
+      })
+  );
+});
+
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request)
+      .then(response => {
+        // 如果有 cache 就用 cache，冇就正常 fetch
+        return response || fetch(event.request);
+      })
+  );
+});</div>
+
+            <hr>
+
+            <h3>🚀 點樣運行同測試 PWA？</h3>
+            <p>因為瀏覽器嘅安全限制（CORS 同 Service Worker 規定），你唔可以直接雙擊 <code>index.html</code> 開啟來測試 PWA 功能。你需要一個 Local Server：</p>
+            
+            <div class="notion-callout">
+                <div class="icon">1️⃣</div>
+                <div class="content">
+                    <h3>喺自己電腦做本地測試 (Local Test)</h3>
+                    <ul>
+                        <li><strong>最簡單做法 (使用 VS Code)：</strong> 如果你用 Visual Studio Code 編輯器，請去左側 Extension (擴充功能) 搜尋並安裝 <strong>Live Server</strong>。</li>
+                        <li>安裝後，Right-click 你個 <code>index.html</code>，選擇 <strong>"Open with Live Server"</strong>。</li>
+                        <li>瀏覽器會自動彈出一個類似 <code>http://127.0.0.1:5500</code> 嘅網址，你就可以喺電腦完美測試 3 個小工具嘅功能。開啟後，用 Chrome 瀏覽器睇，網址列右側應該會出現一個「安裝 (Install)」嘅圖示，撳落去就可以好似真正 App 咁安裝落電腦或模擬器手機嘅主畫面。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="notion-callout">
+                <div class="icon">2️⃣</div>
+                <div class="content">
+                    <h3>免費部署上網 (Deploy to Web)</h3>
+                    <p>要將個網站變成真正可以分享畀人、又可以裝落手機主畫面嘅 PWA，你需要將檔案放上一個支援 HTTPS 加密嘅真實網絡空間。強烈推薦以下免費平台：</p>
+                    
+                    <h4>第一步：建立 GitHub Repository (儲存庫)</h4>
+                    <ul>
+                        <li>如果你未有 GitHub 戶口，請先去 github.com 註冊一個免費戶口。</li>
+                        <li>登入 GitHub 後，喺右上角頭像隔籬撳 <code>+</code> 號，揀 "New repository"。</li>
+                        <li>Repository name: 隨便改個名，例如 <code>toolbox-dashboard</code>。</li>
+                        <li>揀 "Public"，然後撳最下面嘅 "Create repository"。</li>
+                    </ul>
+                    
+                    <h4>第二步：上傳你嗰 3 個檔案</h4>
+                    <ul>
+                        <li>見到 "or create a new repository on the command line" 嗰段字，上面有行細字寫住 "uploading an existing file"，撳嗰條藍色 link。</li>
+                        <li>將你嗰 3 個檔案 (<code>index.html</code>, <code>manifest.json</code>, <code>sw.js</code>) 直接拖入去個框入面。</li>
+                        <li>拉到底下 "Commit changes"，寫返一句描述（例如 Initial commit），然後撳綠色按鈕 "Commit changes"。</li>
+                    </ul>
+                    
+                    <h4>第三步：喺 Vercel 連接 GitHub</h4>
+                    <ul>
+                        <li>去 vercel.com 註冊免費戶口。喺 Vercel 嘅 Dashboard，搵到 "Import Project" 或 "Add New -> Project"。</li>
+                        <li>佢會問你 "From where?"，選擇 "GitHub" 並授權讀取你嘅帳戶。</li>
+                        <li>喺清單入面搵到 <code>toolbox-dashboard</code>，撳 "Import"。其他設定直接撳 "Deploy" 就得，Vercel 會自動偵測到你係 HTML 項目。</li>
+                    </ul>
+                    
+                    <p><strong>之後點樣更新網站？</strong><br>
+                    你喺電腦改完 <code>index.html</code> 或者加新功能，重新 Upload 上 GitHub。Vercel 會喺幾秒鐘後自動感應到，自動 Deploy 成個網。</p>
+                </div>
+            </div>
+
+            <div class="notion-callout">
+                <div class="icon">3️⃣</div>
+                <div class="content">
+                    <h3>手機 PWA 實測 (Mobile Test)</h3>
+                    <p>當你攞到真實網址後，就可以用手機感受真正嘅「產品體驗」：</p>
+                    <ul>
+                        <li>用手機瀏覽器（iPhone 建議用 Safari，Android 用 Chrome）打開你嘅網址。</li>
+                        <li><strong>iPhone 用戶：</strong> 撳畫面底部的「分享」掣（正方形有向上箭嘴），然後慢慢向下拉，揀 <strong>「加至主畫面 (Add to Home Screen)」</strong>。</li>
+                        <li><strong>Android 用戶：</strong> 瀏覽器通常會主動彈出「新增至主畫面」或「安裝應用程式」嘅提示；如果冇，可以撳右上角三點選單揀安裝。</li>
+                        <li>裝完之後返回手機桌面，打開佢，你會發現上面冇咗瀏覽器嘅網址列，就好似一個原生 App 咁！</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="notion-quote">
+                <strong>⚠️ 一個好重要嘅檢查：</strong><br>
+                當你部署完，Vercel 會畀一條網址你。請一定要用手機瀏覽器打開呢條連結試下，睇下個介面夠唔夠簡約，試下撳「加入主畫面」。如果發現功能用唔到，請喺瀏覽器撳 F12 (開發者工具) -> Console，睇下有冇紅色嘅錯誤訊息。
+            </div>
         </div>
 
         <!-- 1. 關於 MANUS (超詳細版) -->
@@ -266,7 +563,6 @@
                     <p>Manus 係一個以 AI Agent 為核心定位嘅系統。<br>如果用最簡單一句去理解佢，同傳統 AI 最大分別就係：</p>
                     <p><strong>傳統 AI 主要負責回答；Manus 主要負責執行。</strong></p>
                     <p>官方文件將 Manus 描述為一個 <span class="notion-highlight">autonomous general AI agent</span>，重點唔係陪你對話，而係喺一個完整可操作嘅環境入面，幫你完成由規劃、執行到交付成果嘅整條工作鏈。</p>
-                    <p>呢個定位其實反映咗 AI 產品一個幾關鍵嘅轉向：<br>AI 唔再只係一個「幫你諗」或者「幫你寫」嘅工具，而係開始變成一個可以代你處理工作流程、實際落手做事嘅代理人。</p>
                 </div>
             </div>
 
@@ -282,8 +578,6 @@
                                 <li><strong>季逸超</strong>（Ji Yichao，常見別名 Peak）｜Chief Scientist</li>
                                 <li><strong>張濤</strong>（Zhang Tao）｜聯合創辦團隊成員之一</li>
                             </ul>
-                            <p>其中肖弘喺官方內容同媒體報導中都係 Manus 最核心、最有代表性嘅人物；而「Red」呢個名亦唔係網民亂叫，係官方年度信入面直接用過嘅署名。季逸超則比較代表技術方向，因為 Manus 有篇好重要嘅技術文章〈Context Engineering for AI Agents〉，就係由佢署名發表。</p>
-                            <p>公司背景方面，公開資料顯示 Manus 早期與中國團隊有關，而後期主要營運重心轉向新加坡。呢個轉移除咗係公司架構變化之外，亦反映咗 AI 公司喺地緣政治、資本市場同監管環境之下，需要考慮更複雜嘅國際部署。</p>
                         </div>
                     </div>
                 </div>
@@ -293,160 +587,14 @@
                         <div class="icon">💡</div>
                         <div class="content">
                             <h3>創辦理念：點解 Manus 唔似一般 AI 產品</h3>
-                            <p>如果只睇市面上好多 AI 產品，佢哋通常會圍繞幾個方向去講自己：更聰明、更快、更似人、更強大嘅模型。</p>
-                            <p>但 Manus 有趣嘅地方係，佢對外講法冇咁集中喺「模型幾勁」，反而一直強調 <strong>action、doing、deliver results</strong> 呢啲字眼。</p>
                             <p>官方 About 頁有一句幾值得記住：</p>
                             <div class="notion-quote">We don't want overachieving AI, we want overachieving Humans.</div>
                             <p>而官方年度信入面，肖弘亦講過一句更直接嘅：</p>
                             <div class="notion-quote">AI shouldn’t just think, it should also do.</div>
-                            <p>如果將呢兩句放埋一齊睇，其實可以幾清楚咁理解到 Manus 想做咩：<br><span class="notion-highlight">佢唔係想做一個「更識答你」嘅 AI，而係想做一個「真係幫你交到結果」嘅 AI。</span></p>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="notion-callout">
-                <div class="icon">💬</div>
-                <div class="content">
-                    <h3>Manus 背後點樣運作？</h3>
-                    
-                    <p><strong>▼ Manus 核心技術思路：唔係靠一個超級模型，而係靠 Agent 系統</strong></p>
-                    <p>Manus 嘅技術路線，並唔係宣稱自己訓練咗一個全新、超越所有人嘅端到端大模型。相反，官方技術文章公開講到，團隊早期有諗過兩條路：</p>
-                    <ol>
-                        <li>訓練一個端到端 agent model</li>
-                        <li>建立喺現有 frontier models 之上，再做 agent 系統</li>
-                    </ol>
-                    <p>最後佢哋選擇咗後者，即係：<br>👉 重點唔係重新發明一個模型，而係做好「context engineering」同「execution system」。</p>
-                    <p>呢條路線其實好重要，因為佢決定咗 Manus 唔係一個單純比拼 IQ 嘅產品，而係一個比拼：任務拆解能力、工具調度能力、上下文管理能力、執行穩定性、交付結果能力。<br>換句話講，Manus 代表嘅唔係「模型戰」，而係「系統戰」。</p>
-
-                    <br><p><strong>▼ Manus 係點運作：由 chat 變成一個會做嘢嘅循環系統</strong></p>
-                    <p>從技術上睇，Manus 可以簡化理解成以下循環：</p>
-                    <ol>
-                        <li><strong>理解需求：</strong> 由語言模型去理解你輸入嘅目標、限制、上下文。</li>
-                        <li><strong>規劃步驟：</strong> 將大任務拆成多個細步驟，例如要唔要先搵資料、要唔要先開某個工具、要唔要生成文件。</li>
-                        <li><strong>調用工具：</strong> 根據任務需要，去用唔同工具，包括 API、網站、connector、本地資源、shell command 等。</li>
-                        <li><strong>執行與觀察結果：</strong> 做完一步之後，系統會睇返結果，再決定下一步。</li>
-                        <li><strong>反覆迭代直到完成：</strong> 呢個就係典型 agent loop：唔係一次答完，而係一路做一路修正。</li>
-                    </ol>
-                    <p>官方技術文章好清楚講到，呢個 loop 其實係由「action → observation → next action」一路推進，而唔係普通 chat model 嗰種一來一回。</p>
-
-                    <br><p><strong>▼ 沙盒虛擬電腦：點解 Manus 唔止係聊天介面</strong></p>
-                    <p>另一個非常關鍵嘅理解位係：Manus 嘅真正工作場所唔係 chat box，而係一個 sandbox 虛擬電腦環境。</p>
-                    <p>官方文件形容得好明確：佢唔只係一個對話 UI，而係運行喺一個完整虛擬電腦入面，當中包括：網絡連線、持久檔案系統、可安裝軟件、可建立工具、可執行程式碼。</p>
-                    <p>所以佢做到嘅，就唔再係「答你應該點做」，而係真係可以：</p>
-                    <ul>
-                        <li>幫你建立報告</li>
-                        <li>幫你整理資料</li>
-                        <li>幫你產出網站</li>
-                        <li>幫你跑指令</li>
-                        <li>幫你生成交付物</li>
-                    </ul>
-                    <p>呢個「虛擬電腦」概念，係 Manus 能夠由 AI 助手變成 AI Agent 嘅根基。</p>
-
-                    <br><p><strong>▼ 點解 Manus 可以做到低門檻</strong></p>
-                    <p>如果只係講一句「因為佢自然語言操作」其實太淺。真正原因冇咁簡單。Manus 之所以低門檻，唔係因為用戶突然變得識得寫 prompt，而係因為佢將原本最難、最工程化嗰部分——即環境、工具、權限、流程——幫你包埋。</p>
-                    <p>低門檻其實來自三樣嘢：</p>
-                    <ol>
-                        <li><strong>將執行環境抽象化：</strong> 你唔需要自己 set 好本地 IDE、CLI、依賴環境，因為系統已經有一個可執行環境。</li>
-                        <li><strong>將工具使用標準化：</strong> 透過 MCP Connectors、Browser Operator 等，外部工具唔再需要逐個自砌 integration。</li>
-                        <li><strong>將流程變成系統能力：</strong> Skill、Scheduled Tasks 呢啲唔係單一功能，而係將「一次性操作」變成「可重用流程」。</li>
-                    </ol>
-                    <p>所以 Manus 真正降低嘅唔係「用字門檻」，而係 <strong>系統使用門檻</strong>。</p>
-                </div>
-            </div>
-
-            <div class="notion-callout">
-                <div class="icon">💬</div>
-                <div class="content">
-                    <h3>Manus 四個最重要功能模組</h3>
-                    <p>如果要理解 Manus 點樣由「會講」走到「會做」，其實最值得睇係以下四個模組。</p>
-                    
-                    <p><strong>▼ MCP Connector</strong><br>
-                    MCP Connector 係 Manus 打通外部世界嘅方法。官方文件寫到好清楚，連接之後 Manus 可以：讀取資料、執行動作、協調跨平台 workflow。例如連接 Gmail、Notion、Telegram 之後，AI 就唔再停留喺「模擬」，而係可以真係對住你帳戶資料做嘢。</p>
-                    
-                    <p><strong>▼ Skill</strong><br>
-                    Skill 係另一個好重要嘅概念。佢本質上係將一套經驗、SOP、工具用法打包成可重用模組。官方描述包括：<code>SKILL.md</code>, <code>scripts</code>, <code>best practices</code>, <code>reusable resources</code>。你可以將一個工作流固定落嚟，之後唔使每次重新解釋。對內容創作者嚟講，呢樣非常值錢，因為研究、整理、格式化輸出本身就係一套可被標準化嘅流程。</p>
-                    
-                    <p><strong>▼ Scheduled Tasks（Cron）</strong><br>
-                    Manus 官方唔直接叫佢 Cron Job，而係叫 Scheduled Tasks。本質上一樣，即：每日自動做、每週自動做、每月自動做（例如 daily digest、weekly tracking、monthly report）。呢個功能令 AI 唔再係「你要用先打開」，而係變成可持續運作嘅系統。</p>
-
-                    <p><strong>▼ My Computer</strong><br>
-                    My Computer 係近一步拉高 Manus 層次嘅功能。佢唔只係 cloud agent，而係開始可以接觸本地電腦：讀寫檔案、用 CLI、操作本地 app、幫你整理 folder。從產品角度睇，呢個功能係一個重要轉折點，因為代表 Manus 正式由「雲端任務型 agent」走向「本地工作型 agent」。</p>
-                </div>
-            </div>
-
-            <div class="notion-row">
-                <div class="notion-col">
-                    <div class="notion-callout">
-                        <div class="icon">🔥</div>
-                        <div class="content">
-                            <h3>🚀 Manus 發展時間線</h3>
-                            <ul>
-                                <li><strong>2023-08-02｜Butterfly Effect 成立：</strong> Manus 背後公司成立。</li>
-                                <li><strong>2025-03（上旬）｜Manus 首次公開亮相：</strong> 以 AI Agent 概念開始受到市場關注。</li>
-                                <li><strong>2025-07-18｜公開技術路線：</strong> 發表 Context Engineering 文章，講清楚 Agent 系統方向。</li>
-                                <li><strong>2025-10-16｜Manus 1.5：</strong> 重寫核心架構，提升速度與穩定性。</li>
-                                <li><strong>2025-11-22｜Browser Operator 開放：</strong> 開始支援瀏覽器操作能力。</li>
-                                <li><strong>2025-12-15｜Manus 1.6：</strong> 推出 1.6 Max / Lite，加強 app / web 開發與設計能力。</li>
-                                <li><strong>2025-12-17｜官方宣佈達到 $100M ARR：</strong> 推出約 8 個月後，官方公布收入突破 1 億美元 ARR。</li>
-                                <li><strong>2025-12-19｜Projects 加入 Connectors：</strong> 工具接駁能力進一步整合到 workspace / project 結構。</li>
-                                <li><strong>2025-12-29｜宣布加入 Meta：</strong> 官方宣布 Manus 加入 Meta，進入大型科技平台整合階段。<br>
-                                <em>▶ 點解 Meta 會買 Manus：</em>
-                                    <ol style="margin-top:5px; margin-bottom:5px;">
-                                        <li>AI 競爭已經由模型競爭轉向 Agent 競爭。</li>
-                                        <li>Manus 已經有可見嘅產品化速度。</li>
-                                        <li>Meta 需要一個更接近「執行層」嘅 AI 能力。</li>
-                                    </ol>
-                                </li>
-                                <li><strong>2026-01-27｜Skills 正式整合：</strong> Skill 系統成為更完整的 Agent 工作流能力。</li>
-                                <li><strong>2026-02-12｜Project Skills 推出：</strong> 支援以 project 為單位管理技能與流程。</li>
-                                <li><strong>2026-03-12｜Year One Letter 發表：</strong> 官方整理第一年產品方向與理念。</li>
-                                <li><strong>2026-03-16｜My Computer 上線：</strong> 推出本地電腦操作能力。</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="notion-col">
-                    <div class="notion-callout">
-                        <div class="icon">💳</div>
-                        <div class="content">
-                            <h3>收費模式：唔係單純月費，而係平台 + 用量結構</h3>
-                            <p>官方 pricing 頁面：<a href="https://manus.im/pricing" target="_blank" class="notion-link">https://manus.im/pricing</a></p>
-                            
-                            <p><strong>▼ Free Plan</strong></p>
-                            <ul>
-                                <li>$0 / 月</li>
-                                <li>每日約 300 credits</li>
-                                <li>1 個 concurrent task</li>
-                                <li>2 個 scheduled tasks</li>
-                            </ul>
-                            
-                            <p><strong>▼ Pro Plan</strong></p>
-                            <ul>
-                                <li>$20 / 月起（另有 $40/月 級別，並提到有 7-day free trial）</li>
-                                <li>每月約 4,000–8,000 credits 起跳</li>
-                            </ul>
-
-                            <p><strong>▼ Team Plan</strong></p>
-                            <ul>
-                                <li>$20 / seat / 月起</li>
-                                <li>包括 team analytics、SSO、data training opt-out 等</li>
-                            </ul>
-
-                            <p>但最重要唔係 plan 名，而係 <strong>「Manus 係 credit-based system」</strong>。<br>即係唔同任務、唔同複雜度，會消耗唔同 credits。佢唔係傳統「付咗月費就無限任用」嗰種產品。</p>
-
-                            <hr>
-                            <p><strong>仲有 WebDev / Deployment 額外成本</strong></p>
-                            <p>如果你用 Manus 做嘅唔止係研究、報告，而係：<br>▶️ 部署網站、用 database、用 cloud hosting、用外部 API<br>咁就會進入 usage-based 成本範圍。</p>
-                            <p>官方 Help Center 都明確區分：<code>subscription credits</code> 與 <code>WebDev usage balance</code>。</p>
-                            <p>所以最準確理解係：<br><span class="notion-highlight">Manus = 訂閱費 + credits 消耗 + 雲端部署 / API 用量</span></p>
-                            <p>對內容創作者嚟講，如果你主要係做 research、report、slides、一般 workflow，主要成本係 credits。但如果你開始用佢整 web app、長期運作系統，就唔可以淨係睇月費。</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
         <!-- 2. Level 1 : 自動處理 Email -->
@@ -462,75 +610,10 @@
                 </div>
             </div>
 
-            <div class="notion-row">
-                <div class="notion-col">
-                    <div class="notion-callout">
-                        <div class="icon">🔥</div>
-                        <div class="content">
-                            <h3>案例重點</h3>
-                            <ul>
-                                <li>不用逐句思考語氣，AI會幫你整理好</li>
-                                <li>可以處理「想拒絕但又要禮貌」的情境</li>
-                                <li>支援英文 Email，自動翻譯＋回覆</li>
-                                <li>可進一步用於分類、整理 Email</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="notion-col">
-                    <div class="notion-callout">
-                        <div class="icon">🧠</div>
-                        <div class="content">
-                            <h3>案例涉及MANUS的功能</h3>
-                            <ul>
-                                <li>連接外部帳戶（MCP Connector）</li>
-                                <li>可讀取實際 Email 內容（Connected Data Access）</li>
-                                <li>可理解郵件語境並生成回覆（AI Content Generation）</li>
-                                <li>可直接建立 Email 草稿（Action Execution）</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <hr>
-
-            <h3>🖼️ 操作流程</h3>
-            
-            <p><strong>1. 點擊「連接應用程式」（MCP Connector）</strong></p>
-            <img class="doc-image" src="Level 1/CleanShot 2026-04-17 at 18.02.22@2x.png" alt="點擊連接應用程式">
-
-            <p><strong>2. 連接 Gmail 帳戶</strong></p>
-            <img class="doc-image" src="Level 1/CleanShot 2026-04-17 at 18.03.49@2x.png" alt="連接 Gmail 帳戶">
-
-            <p><strong>3. 確認 AI 能讀取你的 Email</strong></p>
-            <img class="doc-image" src="Level 1/CleanShot 2026-04-17 at 18.04.49@2x.png" alt="確認 AI 讀取 Email">
-
-            <p><strong>4. 輸入需求（例如：幫我回覆呢封合作 email）</strong></p>
-            <img class="doc-image" src="Level 1/CleanShot 2026-04-17 at 18.05.54@2x.png" alt="輸入需求">
-
-            <p><strong>5. Manus 自動生成回覆並存入草稿</strong></p>
-            <img class="doc-image" src="Level 1/CleanShot 2026-04-17 at 18.07.26@2x.png" alt="生成回覆並存入草稿">
-
             <hr>
 
             <h3>💬 我實際用嘅 Prompt（隨意口語版）</h3>
-            <!-- 模仿 Notion 嘅 Code/Quote 區塊 -->
             <div class="doc-code">我想你幫我DRAFT一封中文回覆郵件放草稿箱，係話多謝合作詢問，但可惜時間不適合（其實係冇乜興趣），用輕鬆又帶點FORMAL的格式回應，用DEAR XX開頭，結尾用BEST REGARDS</div>
-
-            <h3>💡 使用小貼士</h3>
-            <ul>
-                <li>唔需要寫好正式 prompt，用口語都可以</li>
-                <li>可以叫佢再改語氣（再禮貌啲 / 再直接啲）</li>
-                <li>可以延伸用法：
-                    <ul style="margin-top: 5px;">
-                        <li>幫你整理 Inbox 重點</li>
-                        <li>幫你分類郵件</li>
-                        <li>幫你翻譯＋總結英文 Email</li>
-                    </ul>
-                </li>
-            </ul>
         </div>
 
         <!-- 3. Level 2 : 自動任務の每日AI日報 -->
@@ -545,68 +628,6 @@
                     <p>👉 每日自動幫你整理 AI 新聞，並定時發送到 Telegram（完全自動化）<br>
                     由「用 AI」→ 升級為「讓 AI 每日幫你工作」</p>
                 </div>
-            </div>
-
-            <div class="notion-row">
-                <div class="notion-col">
-                    <div class="notion-callout">
-                        <div class="icon">🔥</div>
-                        <div class="content">
-                            <h3>案例重點</h3>
-                            <ul>
-                                <li>由「一次性使用」變成「每日自動運作」</li>
-                                <li>可同時追蹤中英文 AI 新聞來源</li>
-                                <li>自動篩選熱門內容（Top 5）</li>
-                                <li>可加入總結＋翻譯（香港口語）</li>
-                                <li>可設定固定輸出格式（穩定產出）</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="notion-col">
-                    <div class="notion-callout">
-                        <div class="icon">🧠</div>
-                        <div class="content">
-                            <h3>案例涉及MANUS的功能</h3>
-                            <ul>
-                                <li>可設定定時自動任務（Cron Job）</li>
-                                <li>可建立固定執行流程（Skill）</li>
-                                <li>可整合多來源資訊（Multi-source Aggregation）</li>
-                                <li>可自動整理＋輸出內容（AI Content Generation）</li>
-                                <li>可發送至外部平台（Integration / Automation）</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <hr>
-
-            <h3>🖼️ 操作流程</h3>
-            
-            <p><strong>1. 建立每日日報需求（先簡單講清楚內容）</strong></p>
-            <img class="doc-image" src="Level 2/CleanShot 2026-04-17 at 18.20.51@2x.png" alt="建立每日日報需求">
-
-            <p><strong>2. 設定 Telegram Bot（接收訊息）</strong></p>
-            <img class="doc-image" src="Level 2/CleanShot 2026-04-17 at 18.23.13@2x.png" alt="設定 Telegram Bot">
-
-            <p><strong>3. 與 Manus 逐步調整輸出內容</strong></p>
-            <div class="img-grid">
-                <img class="doc-image" src="Level 2/CleanShot 2026-04-17 at 18.33.09@2x.png" alt="逐步調整輸出內容 1">
-                <img class="doc-image" src="Level 2/CleanShot 2026-04-17 at 18.37.22@2x.png" alt="逐步調整輸出內容 2">
-            </div>
-
-            <p><strong>4. 將整個流程封裝為 Skill</strong></p>
-            <div class="img-grid">
-                <img class="doc-image" src="Level 2/CleanShot 2026-04-17 at 18.45.52@2x.png" alt="封裝為 Skill 1">
-                <img class="doc-image" src="Level 2/CleanShot 2026-04-17 at 18.49.40@2x.png" alt="封裝為 Skill 2">
-            </div>
-
-            <p><strong>5. 每日自動觸發並發送內容</strong> (左: 每日香港新聞 / 右: 每日AI日報)</p>
-            <div class="img-grid">
-                <img class="doc-image" src="Level 2/CleanShot 2026-04-17 at 18.55.39@2x.png" alt="每日香港新聞">
-                <img class="doc-image" src="Level 2/CleanShot 2026-04-18 at 01.14.59@2x.png" alt="每日AI日報">
             </div>
 
             <hr>
@@ -628,49 +649,9 @@
 ━━━━━━━━━━
 【 今日重點】
 [分段總結，約150字，香港廣東話書面語，段與段之間空一行]
-◠◡◠◡◠◡◠◡◠◡◠◡
-【 英文 Top 5】[英文媒體名稱]
-[編號] [英文標題]
-   [繁體中文翻譯]
-時間：[ET]  |  [HKT]
- [連結]
- [約100字香港口語解釋，專業術語括號保留英文]
-◠◡◠◡◠◡◠◡◠◡◠◡
-【 中文 Top 5】[中文媒體名稱]
-[編號] [繁體中文標題]  [ X 個來源提及（如有）]
-時間：[HH:MM]
- [連結]
- [約100字香港口語解釋，專業術語括號保留英文]
-◠◡◠◡◠◡◠◡◠◡◠◡
- 每日自動更新
-」
-
-**語言要求：**
-- 全部用香港廣東話書面語
-- 中文標題自動轉繁體
-- 專業術語括號保留英文原文，例如「大型語言模型（LLM）」
-
-**Telegram 設定請適當時候再詢問我**
-
-完成後：
-1. 將完整腳本儲存到 Skill 目錄：/home/ubuntu/skills/ai-news-bot/scripts/ai_news.py
-2. 建立 SKILL.md 說明執行步驟
-3. 先手動測試一次，確認 Telegram 收到正確格式
-4. 確認後設定每日 CRON 排程</div>
-
-            <h3>💡 使用小貼士</h3>
-            <ul>
-                <li>唔需要一開始寫完整 prompt，可以一路同 AI refine</li>
-                <li>記住「1 個 Cron = 1 個 Skill」，會穩定好多</li>
-                <li>如果唔用 Skill： 每次執行可能格式會變／漏步驟</li>
-                <li>可以延伸用法：
-                    <ul style="margin-top: 5px;">
-                        <li>每日股票分析</li>
-                        <li>每日香港新聞摘要</li>
-                        <li>每週內容靈感整理</li>
-                    </ul>
-                </li>
-            </ul>
+...
+(格式設定略)
+」</div>
         </div>
 
         <div id="doc-lv3" class="doc-view">
